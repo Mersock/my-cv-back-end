@@ -24,10 +24,11 @@ services:
       - my-cv-back-end  
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example    
+      MONGO_INITDB_ROOT_PASSWORD: 12345678    
 
 networks: 
   my-cv-back-end:
+    name: my-cv-back-end
     driver: bridge      
 
   
