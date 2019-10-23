@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  my-cv-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: my-cv-back-end  
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app
+    ports:
+      - "3000:3000"
+    networks: 
+      - my-cv-back-end
+    depends_on:
+      - mongo-db
+    command: ["npm","run","dev"] 
+  mongo-db:
+    image: mongo:4.2.0
+    container_name: my-cv-db
+    ports:
+      - "27017:27017" 
+    networks: 
+      - my-cv-back-end  
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example    
+
+networks: 
+  my-cv-back-end:
+    driver: bridge      
+
+  
