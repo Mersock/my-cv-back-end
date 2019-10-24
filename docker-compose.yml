@@ -9,7 +9,7 @@ services:
       - /usr/app/node_modules
       - .:/usr/app
     ports:
-      - "3000:3000"
+      - "3400:3400"
     networks: 
       - my-cv-back-end
     depends_on:
