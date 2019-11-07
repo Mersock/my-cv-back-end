@@ -1,28 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const postsRouter = require('./routes/v1/posts')
+
 require('./db/mongodb');
-require('dotenv').config()
+require('dotenv').config({
+    path: '/.env.dev'
+})
 
 const app = express()
 
-const postsRouter = require('./routes/v1/posts')
-
 app.use(bodyParser.urlencoded({
     extended: true
-  }))
+}))
+
 app.use(bodyParser.json())
 
 app.use((err, req, res, next) => {
-    if(err.statusCode == 400){
+    if (err.statusCode == 400) {
         res.status(err.statusCode).send({
             status_code: err.statusCode,
-            message:'Bad Request.'
+            message: 'Bad Request.'
         })
     }
-    if(err.statusCode == 500){
+    if (err.statusCode == 500) {
         res.status(err.statusCode).send({
             status_code: err.statusCode,
-            message:'Internal Server Error.'
+            message: 'Internal Server Error.'
         })
     }
     next();
@@ -34,10 +37,10 @@ app.get('/', (req, res) => {
 
 app.use(postsRouter)
 
-app.get('*', function(req, res, next) {
+app.get('*', function (req, res, next) {
     res.status(404).send({
         status_code: 404,
-        message:'Page Not Found.'
+        message: 'Page Not Found.'
     })
-  });
+});
 module.exports = app
