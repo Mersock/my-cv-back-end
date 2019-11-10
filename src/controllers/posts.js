@@ -14,7 +14,9 @@ exports.getAll = async (req, res) => {
 exports.create = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() })
+      const extractedErrors = []
+      errors.array().map(err => extractedErrors.push({ [err.param]:err.msg }))
+      return res.status(422).json({ errors: extractedErrors })
     }
 
     const post = new Post(req.body)
@@ -22,7 +24,6 @@ exports.create = async (req, res) => {
         await post.save();
         res.status(201).json(post)
     } catch (error) {
-        console.log(error)
         const { errors } = error
         res.status(400).send({
             status_code: 400,
