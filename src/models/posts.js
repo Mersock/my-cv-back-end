@@ -17,6 +17,14 @@ const postsSchema = new Schema({
     body:{
         type:String,
         required: true
+    },
+    created_at:{
+        type: Date,
+        default: Date.now
+    },
+    updated_at:{
+        type: Date,
+        default: Date.now
     }
 });
 
