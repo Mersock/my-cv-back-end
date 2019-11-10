@@ -1,5 +1,6 @@
 const Post = require('../models/posts');
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose')
 
 
 exports.getAll = async (req, res) => {
@@ -18,6 +19,9 @@ exports.create = async (req, res) => {
       errors.array().map(err => extractedErrors.push({ [err.param]:err.msg }))
       return res.status(422).json({ errors: extractedErrors })
     }
+
+
+    req.body.author = new mongoose.Types.ObjectId()
 
     const post = new Post(req.body)
     try {

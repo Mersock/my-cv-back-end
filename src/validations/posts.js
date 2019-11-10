@@ -1,8 +1,17 @@
-const { check } = require('express-validator');
+const {body} = require('express-validator');
 
 exports.validateCreate = [
-    check('title').not().isEmpty(),
-    check('author').not().isEmpty(),
-    check('body').not().isEmpty(),
-    check('slug').not().isEmpty()
+    body('title')
+        .not()
+        .isEmpty(),
+    body('author')
+        .not()
+        .isEmpty(),
+    body('body')
+        .not()
+        .isEmpty(),
+    body('slug')
+        .not()
+        .isEmpty()
+
 ]
