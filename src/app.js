@@ -18,13 +18,13 @@ app.use(bodyParser.json())
 app.use((err, req, res, next) => {
     if (err.statusCode == 400) {
         res.status(err.statusCode).send({
-            status_code: err.statusCode,
+            statusCode: err.statusCode,
             message: 'Bad Request.'
         })
     }
     if (err.statusCode == 500) {
         res.status(err.statusCode).send({
-            status_code: err.statusCode,
+            statusCode: err.statusCode,
             message: 'Internal Server Error.'
         })
     }
@@ -39,7 +39,7 @@ app.use(postsRouter)
 
 app.get('*', function (req, res, next) {
     res.status(404).send({
-        status_code: 404,
+        statusCode: 404,
         message: 'Page Not Found.'
     })
 });

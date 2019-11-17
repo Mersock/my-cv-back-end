@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 exports.getAll = async (req, res) => {
     try {
         const post = await Post.find()
-        res.status(200).json(post)
+        res.status(200).json({data:post})
     } catch (error) {
         res.status(500)
     }

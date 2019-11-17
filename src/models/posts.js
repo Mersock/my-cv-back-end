@@ -17,15 +17,9 @@ const postsSchema = new Schema({
     body:{
         type:String,
         required: true
-    },
-    created_at:{
-        type: Date,
-        default: Date.now
-    },
-    updated_at:{
-        type: Date,
-        default: Date.now
     }
+},{
+    timestamps:true
 });
 
 const Post = mongoose.model('Post',postsSchema,'posts') 
