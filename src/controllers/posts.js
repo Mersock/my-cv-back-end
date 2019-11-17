@@ -19,8 +19,7 @@ exports.create = async (req, res) => {
       errors.array().map(err => extractedErrors.push({ [err.param]:err.msg }))
       return res.status(422).json({ errors: extractedErrors })
     }
-
-
+    
     req.body.author = new mongoose.Types.ObjectId()
 
     const post = new Post(req.body)
@@ -28,9 +27,10 @@ exports.create = async (req, res) => {
         await post.save();
         res.status(201).json(post)
     } catch (error) {
-        const { errors } = error
+        const errors =[]
+        errors.push(error)
         res.status(400).send({
-            status_code: 400,
+            statusCode: 400,
             errors
         })
     }
