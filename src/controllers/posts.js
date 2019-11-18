@@ -9,7 +9,13 @@ exports.list = async (req, res) => {
         const post = await Post.find()
         res.status(200).json({ data: post })
     } catch (error) {
-        res.status(500)
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send({
+            statusCode: 400,
+            errors
+        })
     }
 }
 
@@ -25,7 +31,6 @@ exports.show = async (req, res) => {
 
     try {
         const posts = await Post.findById(_id)
-
         if (!posts) {
             return res.status(404).send({
                 statusCode: 404,
@@ -38,6 +43,12 @@ exports.show = async (req, res) => {
         })
     } catch (error) {
         console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send({
+            statusCode: 400,
+            errors
+        })
     }
 }
 
@@ -65,6 +76,34 @@ exports.create = async (req, res) => {
     }
 }
 
+exports.update = async (req, res) => {
+    const _id = req.params.id
+    const postColumn = {}
+
+    if (!ObjectId.isValid(_id)) {
+        return res.status(404).send({
+            statusCode: 404,
+            message: 'Not Found.'
+        })
+    }
+
+    const postBody = await Post.findById(_id)
+    postColumn.body = req.body.body == undefined || req.body.body == '' ? postBody.body : req.body.body
+    postColumn.author = req.body.author == undefined || req.body.author == '' ? postBody.author : new mongoose.Types.ObjectId()
+    postColumn.title = req.body.title == undefined || req.body.title == '' ? postBody.title : req.body.title
+    try {
+        const posts = await Post.findByIdAndUpdate(_id, { $set: postColumn }, { new: true, runValidators: true })
+        res.status(200).json(posts)
+    } catch (error) {
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send({
+            statusCode: 400,
+            errors
+        })
+    }
+}
 
 exports.delete = async (req, res) => {
     const _id = req.params.id
@@ -78,16 +117,21 @@ exports.delete = async (req, res) => {
 
     try {
         const posts = await Post.findByIdAndDelete(_id)
-
         if (!posts) {
             return res.status(404).send({
                 statusCode: 404,
                 message: 'Not Found.'
             })
         }
-        res.status(200)
-        
+        res.status(204).send()
+
     } catch (error) {
         console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send({
+            statusCode: 400,
+            errors
+        })
     }
 }

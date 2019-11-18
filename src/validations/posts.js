@@ -1,4 +1,4 @@
-const { body, param, } = require('express-validator');
+const { body  } = require('express-validator');
 const Posts = require('../models/posts')
 
 
@@ -20,12 +20,4 @@ exports.validateCreate = [
             }
         })
 
-]
-
-exports.validateShow = [
-    param('id').isMongoId().trim().withMessage('must be not empty')
-]
-
-exports.validateDelete = [
-    param('id').isMongoId().trim().withMessage('must be not empty')
 ]
