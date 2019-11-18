@@ -9,12 +9,17 @@ services:
     volumes:
       - /usr/app/node_modules/
       - .:/usr/app
+      - .env.dev:/usr/app/.env.dev
     ports:
       - "3400:3000"
     networks: 
       - my-cv-back-end
     depends_on:
       - mongo-db
+    links:
+      - mongo-db  
+    env_file:
+      - .env.dev  
     command: ["npm","run","dev"] 
   mongo-db:
     image: mongo:4.2.0
