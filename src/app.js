@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const postsRouter = require('./routes/v1/posts')
+const usersRouter = require('./routes/v1/users')
 
 require('./db/mongodb');
 require('dotenv').config({
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(postsRouter)
+app.use(usersRouter)
 
 app.get('*', function (req, res, next) {
     res.status(404).send({
