@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 exports.responseWithError = (error, code) => {
     const errors = []
     errors.push(error)
@@ -12,4 +14,10 @@ exports.responseWithCustomError = (msg, code) => {
         statusCode: code,
         message: msg
     }
-}   
+}
+
+exports.responseCollection = (collection) => {
+    return {
+        data:collection
+    }
+}

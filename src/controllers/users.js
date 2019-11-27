@@ -1,11 +1,11 @@
 const User = require('../models/users')
 const ObjectId = require('mongoose').Types.ObjectId
-const { responseWithError, responseWithCustomError } = require('../utils/response')
+const { responseWithError, responseWithCustomError, responseCollection } = require('../utils/response')
 
 exports.list = async (req, res) => {
     try {
         const user = await User.find()
-        res.status(200).json({ data: user })
+        res.status(200).json(responseCollection(user))
     } catch (error) {
         const errors = []
         errors.push(error)
@@ -20,7 +20,7 @@ exports.show = async (req, res) => {
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        res.status(200).send({ data: user })
+        res.status(200).send(responseCollection(user))
     } catch (error) {
         const errors = []
         errors.push(error)
@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
     const user = new User(req.body)
     try {
         await user.save()
-        res.status(201).send(user)
+        res.status(201).send(responseCollection(user))
     } catch (error) {
         const errors = []
         errors.push(error)
@@ -49,10 +49,7 @@ exports.delete = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(_id)
         if (!user) {
-            return res.status(404).send({
-                statusCode: 404,
-                message: 'Not Found.'
-            })
+            return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
     } catch (error) {
