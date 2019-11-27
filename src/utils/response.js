@@ -7,6 +7,9 @@ exports.responseWithError = (error, code) => {
     }
 }
 
-exports.responseWithValidations = (error,code) => {
-    
-}
+exports.responseWithCustomError = (msg, code) => {
+    return {
+        statusCode: code,
+        message: msg
+    }
+}   
