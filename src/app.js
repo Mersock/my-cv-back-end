@@ -18,13 +18,13 @@ app.use(bodyParser.json())
 
 app.use((err, req, res, next) => {
     if (err.statusCode == 400) {
-        res.status(err.statusCode).send({
+       return res.status(err.statusCode).send({
             statusCode: err.statusCode,
             message: 'Bad Request.'
         })
     }
     if (err.statusCode == 500) {
-        res.status(err.statusCode).send({
+       return res.status(err.statusCode).send({
             statusCode: err.statusCode,
             message: 'Internal Server Error.'
         })
