@@ -1,5 +1,4 @@
 const User = require('../models/users')
-const ObjectId = require('mongoose').Types.ObjectId
 const { responseWithError, responseWithCustomError, responseCollection } = require('../utils/response')
 
 exports.list = async (req, res) => {
