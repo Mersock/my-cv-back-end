@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { validatetions } = require('../utils/validations')
-const { body, param, validationResult, check } = require('express-validator')
+const { body, param } = require('express-validator')
 const User = require('../models/users')
 
 
