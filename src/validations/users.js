@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { validatetions } = require('../utils/validations')
-const { check, body, param } = require('express-validator')
+const { body, param, validationResult, check } = require('express-validator')
 const User = require('../models/users')
 
 
@@ -20,10 +20,18 @@ exports.validateCreate = validatetions([
 
 exports.validateUpdate = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.'),
-    body('username').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.'),
+    body('username').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.')
+        .custom(async (value, { req }) => {
+            const id = req.params.id
+            const user = await User.find({_id: {$ne: id},username:{$in:[value]} })
+            if(user.length > 0){
+                throw new Error(`username is ${value} has been taken`)
+            }
+        }),
     body('password').optional().isLength({ min: 6 }).withMessage('password must be least 6 chars long.'),
     body('firstname').optional().not().isEmpty().withMessage('firstname must not empty.'),
-    body('lastname').optional().not().isEmpty().withMessage('lastname must not empty.')])
+    body('lastname').optional().not().isEmpty().withMessage('lastname must not empty.')
+])
 
 exports.validateShow = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
