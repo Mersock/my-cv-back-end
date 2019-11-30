@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const postsRouter = require('./routes/v1/posts')
+const usersRouter = require('./routes/v1/users')
 
 require('./db/mongodb');
 require('dotenv').config({
@@ -17,13 +18,13 @@ app.use(bodyParser.json())
 
 app.use((err, req, res, next) => {
     if (err.statusCode == 400) {
-        res.status(err.statusCode).send({
+       return res.status(err.statusCode).send({
             statusCode: err.statusCode,
             message: 'Bad Request.'
         })
     }
     if (err.statusCode == 500) {
-        res.status(err.statusCode).send({
+       return res.status(err.statusCode).send({
             statusCode: err.statusCode,
             message: 'Internal Server Error.'
         })
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 })
 
 app.use(postsRouter)
+app.use(usersRouter)
 
 app.get('*', function (req, res, next) {
     res.status(404).send({
