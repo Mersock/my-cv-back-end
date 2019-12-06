@@ -1,11 +1,13 @@
+const bcrypt = require('bcryptjs')
 const User = require('../models/users')
 const { responseWithError, responseWithCustomError, responseCollection } = require('../utils/response')
 
 exports.list = async (req, res) => {
     try {
         const user = await User.find()
-        res.status(200).json(responseCollection(user))
+        res.status(200).json(responseCollection(user,['password']))
     } catch (error) {
+        console.log(error)
         const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
@@ -19,7 +21,7 @@ exports.show = async (req, res) => {
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        res.status(200).send(responseCollection(user))
+        res.status(200).send(responseCollection(user,['password']))
     } catch (error) {
         const errors = []
         errors.push(error)
@@ -28,10 +30,11 @@ exports.show = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
+    req.body.password = bcrypt.hashSync(req.body.password, process.env.SECRET)
     const user = new User(req.body)
     try {
         await user.save()
-        res.status(201).send(responseCollection(user))
+        res.status(201).send(responseCollection(user,['password']))
     } catch (error) {
         const errors = []
         errors.push(error)
@@ -54,7 +57,7 @@ exports.update = async (req, res) => {
             lastname: lastname || user.lastname,
         }
         const updateUser = await User.findByIdAndUpdate(_id, { $set: param }, { new: true })
-        res.status(200).send(responseCollection(updateUser))
+        res.status(200).send(responseCollection(updateUser,['password']))
     } catch (error) {
         const errors = []
         errors.push(error)
