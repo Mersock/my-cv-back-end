@@ -5,7 +5,7 @@ const { responseWithError, responseWithCustomError, responseCollection } = requi
 exports.list = async (req, res) => {
     try {
         const user = await User.find()
-        res.status(200).json(responseCollection(user,['password']))
+        res.status(200).json(responseCollection(user))
     } catch (error) {
         console.log(error)
         const errors = []
@@ -21,8 +21,9 @@ exports.show = async (req, res) => {
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        res.status(200).send(responseCollection(user,['password']))
+        res.status(200).send(responseCollection(user))
     } catch (error) {
+        console.log(error)
         const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
@@ -30,12 +31,12 @@ exports.show = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-    req.body.password = bcrypt.hashSync(req.body.password, process.env.SECRET)
     const user = new User(req.body)
     try {
         await user.save()
-        res.status(201).send(responseCollection(user,['password']))
+        res.status(201).send(responseCollection(user))
     } catch (error) {
+        console.log(error)
         const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
@@ -43,22 +44,15 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    const { username, password, firstname, lastname } = req.body
     const _id = req.params.id
     try {
-        const user = await User.findById(_id)
+        const user = await User.findOneAndUpdate({_id}, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        const param = {
-            username: username || user.username,
-            password: password || user.password,
-            firstname: firstname || user.firstname,
-            lastname: lastname || user.lastname,
-        }
-        const updateUser = await User.findByIdAndUpdate(_id, { $set: param }, { new: true })
-        res.status(200).send(responseCollection(updateUser,['password']))
+        res.status(200).send(responseCollection(user))
     } catch (error) {
+        console.log(error)
         const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
@@ -75,6 +69,7 @@ exports.delete = async (req, res) => {
         }
         res.status(204).send()
     } catch (error) {
+        console.log(error)
         const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
