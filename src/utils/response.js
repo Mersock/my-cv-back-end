@@ -16,19 +16,8 @@ exports.responseWithCustomError = (msg, code) => {
     }
 }
 
-exports.responseCollection = (collection, exept = []) => {
-
-    if (_.isArray(collection) > 0) {
-        let filterCollection = _.map(collection, (obj) => {
-            return _.omit(obj.toObject(), exept)
-        })
-        return {
-            data: filterCollection
-        }
-    }
-    
-    let filterCollection = _.omit(collection.toObject(), exept)
+exports.responseCollection = (collection) => {
     return {
-        data: filterCollection
+        data:collection
     }
 }
