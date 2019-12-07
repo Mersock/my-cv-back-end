@@ -51,6 +51,7 @@ userSchema.pre('findOneAndUpdate', async function (next) {
     if (user.$set.password) {
         user.$set.password = await bcrypt.hash(user.$set.password, 10)
     }
+    next()
 })
 
 const User = mongoose.model('User', userSchema, 'users')
