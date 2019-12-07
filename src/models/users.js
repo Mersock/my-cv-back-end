@@ -42,7 +42,7 @@ userSchema.options.toJSON = {
 
 userSchema.pre('save', async function (next) {
     const user = this
-    user.password = await bcrypt.hash(user.password, 10)
+    user.password = await bcrypt.hashSync(user.password, process.env.SECRET_PASSWORD)
     next()
 })
 
