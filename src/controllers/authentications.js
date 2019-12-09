@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
         }
         const signOptions = {
             issuer: 'my-cv',
-            // subject: 'some@user.com',
+            subject: 'some@user.com',
             audience: 'http://my-cv-back-end',
             expiresIn: 300,
             algorithm: "RS256"
