@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const connectionURL = 'mongodb://mongo-db:27017/my-cv?authSource=admin';
+const connectionURL = process.env.MONGO_URL
 
 const option = {
     user: process.env.MONGO_DB_USER,
