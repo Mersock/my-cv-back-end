@@ -38,6 +38,12 @@ exports.refreshToken = async (req, res) => {
     }
 }
 
-exports.logout = (req, res) => {
-    res.status('ok')
+exports.logout = async (req, res) => {
+    try {
+        const { userId, refreshToken } = req.body
+        client.destroyToken(userId, refreshToken)
+        res.status(204).send()
+    } catch (error) {
+        res.status(401).send(responseWithCustomError('Unauthorized.', 401))
+    }
 }

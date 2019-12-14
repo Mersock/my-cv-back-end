@@ -40,3 +40,7 @@ exports.getUserFromRefreshToken =  (userId,refreshToken) => {
     })
     return user
 }
+
+exports.destroyToken = (userId,refreshToken) => {
+    client.del(`refreshToken_${userId}_${refreshToken}`);
+}
