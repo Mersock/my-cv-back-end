@@ -1,9 +1,14 @@
 const bcrypt = require('bcryptjs')
+const { validationResult } = require('express-validator')
 const User = require('../models/users')
-const { responseWithCustomError } = require('../utils/response')
+const { responseWithCustomError,responseValidateError } = require('../utils/response')
 const client = require('../utils/authentications')
 
 exports.login = async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).send(responseValidateError(errors))
+    }
     try {
         const { username, password } = req.body
         const user = await User.findOne({ username })
@@ -24,6 +29,10 @@ exports.login = async (req, res) => {
 }
 
 exports.refreshToken = async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).send(responseValidateError(errors))
+    }
     try {
         const { refreshToken, userId } = req.body
         const userOject = await client.getUserFromRefreshToken(userId, refreshToken)
