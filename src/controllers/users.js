@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs')
 const User = require('../models/users')
 const { responseWithError, responseWithCustomError, responseCollection } = require('../utils/response')
 
