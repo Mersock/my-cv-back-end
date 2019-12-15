@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 app.use((err, req, res, next) => {
+    console.log(err)
     if (err.statusCode == 400) {
        return res.status(err.statusCode).send({
             statusCode: err.statusCode,
@@ -43,10 +44,10 @@ app.use(authRouter)
 app.use(postsRouter)
 app.use(usersRouter)
 
-app.get('*', function (req, res, next) {
+app.use('*', function (req, res, next) {
     res.status(404).send({
         statusCode: 404,
-        message: 'Page Not Found.'
+        message: 'Not Found.'
     })
 });
 module.exports = app
