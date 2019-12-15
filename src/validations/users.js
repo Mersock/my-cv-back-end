@@ -12,10 +12,10 @@ exports.validateCreate = validatetions([
                 throw new Error(`username is ${username} has been taken`)
             }
         }),
-    body('password').not().isEmpty().withMessage('password must be require.')
+    body('password').notEmpty().withMessage('password must be require.')
         .isLength({ min: 6 }).withMessage('password must be least 6 chars long.'),
-    body('firstname').not().isEmpty().withMessage('firstname must be require.'),
-    body('lastname').not().isEmpty().withMessage('lastname must be require.')
+    body('firstname').notEmpty().withMessage('firstname must be require.'),
+    body('lastname').notEmpty().withMessage('lastname must be require.')
 ]);
 
 exports.validateUpdate = validatetions([
@@ -29,8 +29,8 @@ exports.validateUpdate = validatetions([
             }
         }),
     body('password').optional().isLength({ min: 6 }).withMessage('password must be least 6 chars long.'),
-    body('firstname').optional().not().isEmpty().withMessage('firstname must not empty.'),
-    body('lastname').optional().not().isEmpty().withMessage('lastname must not empty.')
+    body('firstname').optional().notEmpty().withMessage('firstname must not empty.'),
+    body('lastname').optional().notEmpty().withMessage('lastname must not empty.')
 ])
 
 exports.validateShow = validatetions([
