@@ -18,6 +18,14 @@ exports.responseWithCustomError = (msg, code) => {
 
 exports.responseCollection = (collection) => {
     return {
-        data:collection
+        data: collection
+    }
+}
+
+exports.responseValidateError = (errors) => {
+    const extractedErrors = []
+    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+    return {
+        errors: extractedErrors
     }
 }
