@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const postsRouter = require('./routes/v1/posts')
 const usersRouter = require('./routes/v1/users')
-const authRouter = require('./routes/v1/authentications')
+const authRouter = require('./routes/authentications')
 
 require('./db/mongodb');
 require('dotenv').config({

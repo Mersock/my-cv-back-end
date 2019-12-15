@@ -41,8 +41,14 @@ exports.refreshToken = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         const { userId, refreshToken } = req.body
-        client.destroyToken(userId, refreshToken)
-        res.status(204).send()
+        const userOject = await client.getUserFromRefreshToken(userId, refreshToken)
+        const user = JSON.parse(userOject)
+        if (user.id) {
+            client.destroyToken(user.id, refreshToken)
+            return res.status(204).send()
+        }
+        res.status(401).send(responseWithCustomError('Unauthorized.', 401))
+
     } catch (error) {
         res.status(401).send(responseWithCustomError('Unauthorized.', 401))
     }
