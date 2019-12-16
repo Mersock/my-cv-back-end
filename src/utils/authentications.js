@@ -18,9 +18,6 @@ exports.signOption = (user) => {
     // expiresIn — Expiration time after which the token will be invalid.
     // algorithm — Encryption algorithm to be used to protect the token.
     const signOptions = {
-        issuer: 'my-cv',
-        subject: 'some@user.com',
-        audience: 'http://my-cv-back-end',
         expiresIn: exp,
         algorithm: "RS256"
     };
