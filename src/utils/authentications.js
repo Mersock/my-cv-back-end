@@ -12,11 +12,6 @@ exports.signOption = (user) => {
         username: user.username
     }
     const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
-    // issuer — Software organization who issues the token.
-    // subject — Intended user of the token.
-    // audience — Basically identity of the intended recipient of the token..
-    // expiresIn — Expiration time after which the token will be invalid.
-    // algorithm — Encryption algorithm to be used to protect the token.
     const signOptions = {
         expiresIn: exp,
         algorithm: "RS256"
