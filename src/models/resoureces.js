@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 
 const resourceSchema = new Schema({
-    resource: {
+    name: {
         type: String,
         required: true,
     },
     permissions: {
-        type: [{}],
+        type: Object,
         required: true
     }
 })
