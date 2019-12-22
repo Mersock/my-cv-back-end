@@ -22,8 +22,8 @@ exports.validateUpdate = validatetions([
     body('name').optional().notEmpty().withMessage('name must be required.')
         .custom(async (value, { req }) => {
             const id = req.params.id
-            const user = await Resoureces.find({ _id: { $ne: id }, name: { $in: [value] } })
-            if (user.length > 0) {
+            const resource = await Resoureces.find({ _id: { $ne: id }, name: { $in: [value] } })
+            if (resource.length > 0) {
                 throw new Error(`name is ${value} has been taken`)
             }
         }),
