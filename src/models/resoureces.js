@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-
+const _ = require('lodash')
 
 const resourceSchema = new Schema({
     name: {
@@ -8,9 +8,18 @@ const resourceSchema = new Schema({
         required: true,
     },
     permissions: {
-        type: Object,
-        required: true
+        type: Schema.Types.Mixed,
+        required: true,
+        default: {},
+        validate(value) {
+            if (!_.isObject(value)) {
+                throw new Error('Permission must be require.')
+            }
+        },
     }
+},{
+    timestamps:true,
+    minimize: false
 })
 
 const resources = mongoose.model('Resource', resourceSchema, 'resource')
