@@ -22,6 +22,15 @@ const resourceSchema = new Schema({
     minimize: false
 })
 
+resourceSchema.options.toJSON = {
+    transform: function (doc, resource, options) {
+        resource.id = resource._id
+        delete resource._id
+        delete resource.__v
+        return resource
+    }
+}
+
 const resources = mongoose.model('Resource', resourceSchema, 'resource')
 
 module.exports = resources
