@@ -8,7 +8,7 @@ exports.validateCreate = validatetions([
     body('username').isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async username => {
             const user = await User.findOne({ username })
-            if (user) {
+            if (!_.isEmpty(user)) {
                 throw new Error(`username is ${username} has been taken`)
             }
         }),
@@ -23,8 +23,8 @@ exports.validateUpdate = validatetions([
     body('username').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async (value, { req }) => {
             const id = req.params.id
-            const user = await User.find({_id: {$ne: id},username:{$in:[value]} })
-            if(user.length > 0){
+            const user = await User.find({ _id: { $ne: id }, username: { $in: [value] } })
+            if (user.length > 0) {
                 throw new Error(`username is ${value} has been taken`)
             }
         }),

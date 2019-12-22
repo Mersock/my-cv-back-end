@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const postsRouter = require('./routes/v1/posts')
 const usersRouter = require('./routes/v1/users')
 const authRouter = require('./routes/authentications')
+const roleRouter = require('./routes/v1/roles')
+const resourceRouter = require('./routes/v1/resource')
 const { handleRequrest, handleRouter } = require('./middlewares/handle')
 
 require('./db/mongodb');
@@ -29,6 +31,8 @@ app.get('/', (req, res) => {
 app.use(authRouter)
 app.use(postsRouter)
 app.use(usersRouter)
+app.use(resourceRouter)
+app.use(roleRouter)
 
 app.use('*', handleRouter);
 module.exports = app
