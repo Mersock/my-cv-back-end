@@ -16,13 +16,15 @@ exports.validateCreate = validatetions([
     body('resources').optional().isArray().withMessage('resources must be array')
         .notEmpty().withMessage('resources is required')
         .custom(async (value, { req }) => {
+            const ids = _.isArray(value) ? value : [];
             const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
-            if (findDuplicates(value).length != 0) {
+            if (findDuplicates(ids).length != 0) {
                 throw new Error(`resources ${findDuplicates(value).toString()} duplicate.`)
             }
         })
         .custom(async (value, { req }) => {
-            const id = value.map(_id => new mongoose.Types.ObjectId(_id))
+            const ids = _.isArray(value) ? value : [];
+            const id = ids.map(_id => new mongoose.Types.ObjectId(_id))
             const resource = await Resource.find({ "_id": { $in: id } })
             resourceId = _.map(resource, '_id')
             if (!_.isEqual(_.sortBy(id), _.sortBy(resourceId))) {
