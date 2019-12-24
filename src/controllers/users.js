@@ -45,7 +45,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     const _id = req.params.id
     try {
-        const user = await User.findOneAndUpdate({_id}, { $set: req.body }, { new: true, useFindAndModify: false })
+        const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
