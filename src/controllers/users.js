@@ -74,3 +74,48 @@ exports.delete = async (req, res) => {
         res.status(400).send(responseWithError(errors, 400))
     }
 }
+
+exports.listWithRole = async (req, res) => {
+    try {
+        return await User.find()
+            .populate({
+                path: 'roles',
+                select: ['name', 'resources'],
+                populate: {
+                    path: 'resources',
+                    select: ['name', 'permissions']
+                }
+            })
+            .exec(function (err, roles) {
+                res.status(200).json(responseCollection(roles))
+            })
+    } catch (error) {
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
+
+exports.showWithRole = async (req, res) => {
+    const _id = req.params.id
+    try {
+        return await User.findOne({ _id })
+            .populate({
+                path: 'roles',
+                select: ['name', 'resources'],
+                populate: {
+                    path: 'resources',
+                    select: ['name', 'permissions']
+                }
+            })
+            .exec(function (err, roles) {
+                res.status(200).json(responseCollection(roles))
+            })
+    } catch (error) {
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
