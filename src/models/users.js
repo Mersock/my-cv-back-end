@@ -25,7 +25,13 @@ const userSchema = new Schema({
         required: true,
         minlength: 6,
         trim: true
-    }
+    },
+    roles: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Role'
+        }
+    ]
 }, {
     timestamps: true
 });
