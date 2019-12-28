@@ -60,6 +60,20 @@ userSchema.pre('findOneAndUpdate', async function (next) {
     next()
 })
 
+userSchema.statics.getRoles = async (username) => {
+    return await User.findOne({ username }).populate({
+        path: 'roles',
+        select: ['name', 'resources'],
+        populate: {
+            path: 'resources',
+            select: ['name', 'permissions']
+        }
+    }).exec(function (err, user) {
+        // console.log(user)
+        return user
+    })
+}
+
 const User = mongoose.model('User', userSchema, 'users')
 
 module.exports = User;
