@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const _ = require('lodash')
 const User = require('../models/users')
 const { responseWithCustomError, responseValidateError } = require('../utils/response')
 const client = require('../utils/authentications')
@@ -7,12 +8,7 @@ exports.login = async (req, res) => {
     try {
         const { username, password } = req.body
         return User.findOne({ username }).populate({
-            path: 'roles',
-            select: ['name', 'resources'],
-            populate: {
-                path: 'resources',
-                select: ['name', 'permissions']
-            }
+            path: 'permissions',
         }).exec(function (err, user) {
             const isMatch = bcrypt.compareSync(password, user.password)
             if (isMatch) {

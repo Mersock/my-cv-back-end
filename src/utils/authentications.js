@@ -8,11 +8,11 @@ const privateKey = fs.readFileSync(path.join(__dirname, '../keys') + '/private.k
 
 
 exports.signOption = (user) => {
-    const roles = this.responstRoles(user.roles)
+    const permisisons = this.responstPermisisons(user.permissions)
     const payload = {
         id: user._id,
         username: user.username,
-        roles: roles
+        permission: permisisons
     }
     const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
     const signOptions = {
@@ -40,10 +40,6 @@ exports.destroyToken = (userId, refreshToken) => {
     client.del(`refreshToken_${userId}_${refreshToken}`);
 }
 
-exports.responstRoles = roles => {
-    const rolesObj = JSON.parse(JSON.stringify(roles));
-    return _.forEach(rolesObj, (value, key) => {
-        _.unset(value, 'id')
-        _.unset(value, `resources[${key}].id`)
-    })
+exports.responstPermisisons = permisisons => {
+    return _.map(permisisons, 'name')
 }
