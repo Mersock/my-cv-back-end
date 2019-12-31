@@ -79,7 +79,7 @@ exports.listWithPermission = async (req, res) => {
     try {
         return await User.find()
             .populate({
-                path: 'permissons',
+                path: 'permissions',
                 select: ['name'],
             })
             .exec(function (err, permissions) {
@@ -101,7 +101,7 @@ exports.showWithPermissions = async (req, res) => {
                 path: 'permissions',
                 select: ['name'],
             })
-            .exec(function (err, roles) {
+            .exec(function (err, permissions) {
                 res.status(200).json(responseCollection(permissions))
             })
     } catch (error) {
