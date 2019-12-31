@@ -75,19 +75,15 @@ exports.delete = async (req, res) => {
     }
 }
 
-exports.listWithRole = async (req, res) => {
+exports.listWithPermission = async (req, res) => {
     try {
         return await User.find()
             .populate({
-                path: 'roles',
-                select: ['name', 'resources'],
-                populate: {
-                    path: 'resources',
-                    select: ['name', 'permissions']
-                }
+                path: 'permissons',
+                select: ['name'],
             })
-            .exec(function (err, roles) {
-                res.status(200).json(responseCollection(roles))
+            .exec(function (err, permissions) {
+                res.status(200).json(responseCollection(permissions))
             })
     } catch (error) {
         console.log(error)
@@ -97,20 +93,16 @@ exports.listWithRole = async (req, res) => {
     }
 }
 
-exports.showWithRole = async (req, res) => {
+exports.showWithPermissions = async (req, res) => {
     const _id = req.params.id
     try {
         return await User.findOne({ _id })
             .populate({
-                path: 'roles',
-                select: ['name', 'resources'],
-                populate: {
-                    path: 'resources',
-                    select: ['name', 'permissions']
-                }
+                path: 'permissions',
+                select: ['name'],
             })
             .exec(function (err, roles) {
-                res.status(200).json(responseCollection(roles))
+                res.status(200).json(responseCollection(permissions))
             })
     } catch (error) {
         console.log(error)

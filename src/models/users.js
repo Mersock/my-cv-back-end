@@ -26,10 +26,10 @@ const userSchema = new Schema({
         minlength: 6,
         trim: true
     },
-    roles: [
+    permissions: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Role'
+            ref: 'Permission'
         }
     ]
 }, {
@@ -59,20 +59,6 @@ userSchema.pre('findOneAndUpdate', async function (next) {
     }
     next()
 })
-
-userSchema.statics.getRoles = async (username) => {
-    return await User.findOne({ username }).populate({
-        path: 'roles',
-        select: ['name', 'resources'],
-        populate: {
-            path: 'resources',
-            select: ['name', 'permissions']
-        }
-    }).exec(function (err, user) {
-        // console.log(user)
-        return user
-    })
-}
 
 const User = mongoose.model('User', userSchema, 'users')
 
