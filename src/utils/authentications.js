@@ -12,7 +12,7 @@ exports.signOption = (user) => {
     const payload = {
         id: user._id,
         username: user.username,
-        permission: permisisons
+        permissions: permisisons
     }
     const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
     const signOptions = {

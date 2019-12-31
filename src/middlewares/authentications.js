@@ -14,7 +14,9 @@ exports.authLogin = (req, res, next) => {
             algorithm: "RS256"
         };
         const user = jwt.verify(token, publicKey, signOptions)
-        if(user.id && user.username){
+        if (user.id && user.username) {
+            const { id, username, permissions } = user
+            req.user = { id, username, permissions }
             return next()
         }
         res.status(401).send(responseWithCustomError('Unauthorization.', 401))
