@@ -5,6 +5,7 @@ const usersRouter = require('./routes/v1/users')
 const authRouter = require('./routes/authentications')
 const roleRouter = require('./routes/v1/roles')
 const resourceRouter = require('./routes/v1/resource')
+const permissionsRouter = require('./routes/v1/permissions')
 const { handleRequrest, handleRouter } = require('./middlewares/handle')
 
 require('./db/mongodb');
@@ -33,6 +34,7 @@ app.use(postsRouter)
 app.use(usersRouter)
 app.use(resourceRouter)
 app.use(roleRouter)
+app.use(permissionsRouter)
 
 app.use('*', handleRouter);
 module.exports = app
