@@ -38,4 +38,4 @@ app.use(handleRolePermissions)
 
 app.use('*', handleRouter);
 
-module.exports = app
+export default app
