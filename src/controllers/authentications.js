@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs'
 import _ from 'lodash'
 import { responseWithCustomError } from '../utils/response'
-import { signOption, saveRefreshToken, getUserFromRefreshToken } from '../utils/authentications'
+import { signOption, saveRefreshToken, getUserFromRefreshToken, destroyToken } from '../utils/authentications'
 import User from '../models/users'
+import client from '../db/redis'
 
 export const login = async (req, res) => {
     try {
@@ -22,7 +23,6 @@ export const login = async (req, res) => {
             res.status(401).send(responseWithCustomError('Unauthorized.', 401))
         })
     } catch (error) {
-        console.log(error)
         res.status(401).send(responseWithCustomError('Unauthorized.', 401))
     }
 }
@@ -32,12 +32,11 @@ export const refreshToken = async (req, res) => {
         let { refreshToken, userId } = req.body
         let userOject = await getUserFromRefreshToken(userId, refreshToken)
         let user = JSON.parse(userOject)
-        let accessToken = client.signOption(user)
+        let accessToken = signOption(user)
         res.status(200).send({
             accessToken
         })
     } catch (error) {
-        console.log(error)
         res.status(401).send(responseWithCustomError('Unauthorized.', 401))
     }
 }
@@ -48,7 +47,7 @@ export const logout = async (req, res) => {
         let userOject = await getUserFromRefreshToken(userId, refreshToken)
         let user = JSON.parse(userOject)
         if (user.id) {
-            client.destroyToken(user.id, refreshToken)
+            destroyToken(user.id, refreshToken)
             return res.status(204).send()
         }
         res.status(401).send(responseWithCustomError('Unauthorized.', 401))
