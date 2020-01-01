@@ -1,14 +1,13 @@
 const _ = require('lodash')
 const { validatetions } = require('../utils/validations')
 const { body, param } = require('express-validator')
-const Roles = require('../models/roles');
-const mongoose = require('mongoose')
+const Permission = require('../models/permissions');
 
 exports.validateCreate = validatetions([
     body('name').notEmpty().withMessage('name is required.')
         .custom(async name => {
-            const roles = await Roles.findOne({ name })
-            if (!_.isEmpty(roles)) {
+            const permissions = await Permission.findOne({ name })
+            if (!_.isEmpty(permissions)) {
                 throw new Error(`name is ${name} has been taken`)
             }
         })

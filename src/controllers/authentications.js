@@ -1,22 +1,26 @@
 const bcrypt = require('bcryptjs')
+const _ = require('lodash')
 const User = require('../models/users')
-const { responseWithCustomError,responseValidateError } = require('../utils/response')
+const { responseWithCustomError, responseValidateError } = require('../utils/response')
 const client = require('../utils/authentications')
 
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body
-        const user = await User.findOne({ username })
-        const isMatch = bcrypt.compareSync(password, user.password)
-        if (isMatch) {
-            const accessToken = client.signOption(user)
-            const refreshToken = client.saveRefreshToken(user)
-            return res.status(200).send({
-                accessToken,
-                refreshToken
-            })
-        }
-        res.status(401).send(responseWithCustomError('Unauthorized.', 401))
+        return User.findOne({ username }).populate({
+            path: 'permissions',
+        }).exec(function (err, user) {
+            const isMatch = bcrypt.compareSync(password, user.password)
+            if (isMatch) {
+                const accessToken = client.signOption(user)
+                const refreshToken = client.saveRefreshToken(user)
+                return res.status(200).send({
+                    accessToken,
+                    refreshToken
+                })
+            }
+            res.status(401).send(responseWithCustomError('Unauthorized.', 401))
+        })
     } catch (error) {
         console.log(error)
         res.status(401).send(responseWithCustomError('Unauthorized.', 401))

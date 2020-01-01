@@ -1,10 +1,10 @@
-const Resource = require('../models/resoureces');
+const Permission = require('../models/permissions');
 const { responseCollection, responseWithError, responseWithCustomError } = require('../utils/response')
 
 exports.list = async (req, res) => {
     try {
-        const resource = await Resource.find()
-        res.status(200).json(responseCollection(resource))
+        const permissions = await Permission.find()
+        res.status(200).json(responseCollection(permissions))
     } catch (error) {
         console.log(error)
         const errors = []
@@ -16,11 +16,11 @@ exports.list = async (req, res) => {
 exports.show = async (req, res) => {
     const _id = req.params.id
     try {
-        const resource = await Resource.findById(_id)
-        if (!resource) {
+        const permissions = await Permission.findById(_id)
+        if (!permissions) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        res.status(200).send(responseCollection(resource))
+        res.status(200).send(responseCollection(permissions))
     } catch (error) {
         console.log(error)
         const errors = []
@@ -28,14 +28,15 @@ exports.show = async (req, res) => {
         res.status(400).send(responseWithError(errors, 400))
     }
 }
+
 exports.update = async (req, res) => {
     const _id = req.params.id
     try {
-        const resource = await Resource.findOneAndUpdate({_id}, { $set: req.body }, { new: true, useFindAndModify: false })
-        if (!resource) {
+        const permissions = await Permission.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
+        if (!permissions) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
-        res.status(200).send(responseCollection(resource))
+        res.status(200).send(responseCollection(permissions))
     } catch (error) {
         console.log(error)
         const errors = []
@@ -46,10 +47,10 @@ exports.update = async (req, res) => {
 }
 
 module.exports.create = async (req, res) => {
-    const resource = new Resource(req.body)
+    const permissions = new Permission(req.body)
     try {
-        await resource.save()
-        res.status(201).send(responseCollection(resource))
+        await permissions.save()
+        res.status(201).send(responseCollection(permissions))
     } catch (error) {
         res.send(error)
     }
@@ -58,8 +59,8 @@ module.exports.create = async (req, res) => {
 exports.delete = async (req, res) => {
     const _id = req.params.id
     try {
-        const resource = await Resource.findByIdAndDelete(_id)
-        if (!resource) {
+        const permissions = await Permission.findByIdAndDelete(_id)
+        if (!permissions) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()

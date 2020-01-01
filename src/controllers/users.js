@@ -45,7 +45,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     const _id = req.params.id
     try {
-        const user = await User.findOneAndUpdate({_id}, { $set: req.body }, { new: true, useFindAndModify: false })
+        const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
@@ -67,6 +67,46 @@ exports.delete = async (req, res) => {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
+    } catch (error) {
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
+
+exports.listWithPermission = async (req, res) => {
+    try {
+        return await User.find()
+            .populate({
+                path: 'permissions',
+                select: ['name'],
+            })
+            .exec(function (err, permissions) {
+                res.status(200).json(responseCollection(permissions))
+            })
+    } catch (error) {
+        console.log(error)
+        const errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
+
+exports.showWithPermissions = async (req, res) => {
+    const _id = req.params.id
+    try {
+        return await User.findOne({ _id })
+            .populate({
+                path: 'permissions',
+                select: ['name'],
+            })
+            .exec(function (err, permissions) {
+                if (!permissions) {
+                    return res.status(404).send(responseWithCustomError('Not Found.', 404))
+                }
+                res.status(200).json(responseCollection(permissions))
+            })
     } catch (error) {
         console.log(error)
         const errors = []

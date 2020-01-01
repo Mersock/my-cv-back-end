@@ -25,7 +25,13 @@ const userSchema = new Schema({
         required: true,
         minlength: 6,
         trim: true
-    }
+    },
+    permissions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Permission'
+        }
+    ]
 }, {
     timestamps: true
 });

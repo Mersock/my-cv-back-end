@@ -1,4 +1,4 @@
-exports.handleRequrest = (err, req, res, next) => {
+exports.handleRequest = (err, req, res, next) => {
     console.log(err)
     if (err.statusCode == 400) {
         return res.status(err.statusCode).send({
@@ -20,4 +20,13 @@ exports.handleRouter = (req, res, next) => {
         statusCode: 404,
         message: 'Not Found.'
     })
+}
+
+exports.handleRolePermissions = (err, req, res, next) => {
+    if (err.code === 'permission_denied') {
+        res.status(403).send({
+            statusCode: 403,
+            message: 'Forbidden.'
+        });
+    }
 }

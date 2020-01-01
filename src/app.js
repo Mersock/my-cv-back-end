@@ -4,8 +4,8 @@ const postsRouter = require('./routes/v1/posts')
 const usersRouter = require('./routes/v1/users')
 const authRouter = require('./routes/authentications')
 const roleRouter = require('./routes/v1/roles')
-const resourceRouter = require('./routes/v1/resource')
-const { handleRequrest, handleRouter } = require('./middlewares/handle')
+const permissionsRouter = require('./routes/v1/permissions')
+const { handleRequest, handleRouter, handleRolePermissions } = require('./middlewares/handle')
 
 require('./db/mongodb');
 require('dotenv').config({
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-app.use(handleRequrest)
+app.use(handleRequest)
 
 app.get('/', (req, res) => {
     res.send('This is My-CV APIs.')
@@ -31,8 +31,11 @@ app.get('/', (req, res) => {
 app.use(authRouter)
 app.use(postsRouter)
 app.use(usersRouter)
-app.use(resourceRouter)
 app.use(roleRouter)
+app.use(permissionsRouter)
+
+app.use(handleRolePermissions)
 
 app.use('*', handleRouter);
+
 module.exports = app
