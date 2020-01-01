@@ -1,20 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser')
-const postsRouter = require('./routes/v1/posts')
-const usersRouter = require('./routes/v1/users')
-const authRouter = require('./routes/authentications')
-const roleRouter = require('./routes/v1/roles')
-const permissionsRouter = require('./routes/v1/permissions')
-const { handleRequest, handleRouter, handleRolePermissions } = require('./middlewares/handle')
-
-require('./db/mongodb');
-require('dotenv').config({
-    path: '/.env.dev'
-})
-
-require('./db/redis');
+import express from 'express'
+import bodyParser from 'body-parser'
+import dotenv from 'dotenv'
+import './db/mongodb'
+import './db/redis'
+import postsRouter from './routes/v1/posts'
+import usersRouter from './routes/v1/users'
+import authRouter from './routes/authentications'
+import roleRouter from './routes/v1/roles';
+import permissionsRouter from './routes/v1/permissions'
+import { handleRequest, handleRouter, handleRolePermissions } from './middlewares/handle'
 
 const app = express()
+
+dotenv.config({
+    path: '/.env.dev'
+})
 
 app.use(bodyParser.urlencoded({
     extended: true
