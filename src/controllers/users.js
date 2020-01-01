@@ -102,6 +102,9 @@ exports.showWithPermissions = async (req, res) => {
                 select: ['name'],
             })
             .exec(function (err, permissions) {
+                if (!permissions) {
+                    return res.status(404).send(responseWithCustomError('Not Found.', 404))
+                }
                 res.status(200).json(responseCollection(permissions))
             })
     } catch (error) {
