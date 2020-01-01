@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --exec babel-node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,9 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "dotenv": "^8.2.0",
     "nodemon": "^1.19.4"
   }
