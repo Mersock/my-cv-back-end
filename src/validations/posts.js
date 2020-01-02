@@ -1,8 +1,8 @@
-const { body  } = require('express-validator');
-const Posts = require('../models/posts')
+import { body } from ('express-validator');
+import Posts from '../models/posts'
 
 
-exports.validateCreate = [
+export const validateCreate = [
     body('title')
         .not().isEmpty().withMessage('must be not empty')
         .isLength({ min: 1, max: 1000 }).withMessage('must be maximum 1000 chars'),
@@ -14,7 +14,7 @@ exports.validateCreate = [
     body('slug')
         .not().isEmpty().withMessage('must be not empty')
         .custom(async slug => {
-            const posts = await Posts.findOne({ slug })
+            let posts = await Posts.findOne({ slug })
             if (posts) {
                 throw new Error(`slug name ${slug} has been taken.`)
             }

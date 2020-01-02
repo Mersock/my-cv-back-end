@@ -1,12 +1,13 @@
-const express = require('express');
+import express from 'express';
+import { list, create, show, update, destroy } from '../../controllers/posts';
+import { validateCreate } from '../../validations/posts'
+
 const router = new express.Router();
-const postsController = require('../../controllers/posts');
-const { validateCreate } = require('../../validations/posts')
 
-router.get('/v1/posts', postsController.list)
-router.post('/v1/posts', validateCreate, postsController.create)
-router.get('/v1/posts/:id', postsController.show)
-router.patch('/v1/posts/:id', postsController.update)
-router.delete('/v1/posts/:id', postsController.delete)
+router.get('/v1/posts', list)
+router.post('/v1/posts', validateCreate, create)
+router.get('/v1/posts/:id', show)
+router.patch('/v1/posts/:id', update)
+router.delete('/v1/posts/:id', destroy)
 
-module.exports = router
+export default router
