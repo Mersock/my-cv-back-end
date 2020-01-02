@@ -1,10 +1,11 @@
-const express = require('express')
+import express from 'express'
+import { login, refreshToken, logout } from '../controllers/authentications'
+import { validateLogin, validateRefreshToken } from '../validations/authentications'
+
 const router = new express.Router()
-const authController = require('../controllers/authentications')
-const { validateLogin, validateRefreshToken } = require('../validations/authentications')
 
-router.post('/login', validateLogin, authController.login)
-router.post('/refreshToken', validateRefreshToken, authController.refreshToken)
-router.post('/logout', authController.logout)
+router.post('/login', validateLogin, login)
+router.post('/refreshToken', validateRefreshToken, refreshToken)
+router.post('/logout', logout)
 
-module.exports = router
+export default router
