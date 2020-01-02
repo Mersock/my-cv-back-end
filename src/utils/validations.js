@@ -1,6 +1,6 @@
-const { validationResult } = require('express-validator')
+import { validationResult } from 'express-validator'
 
-exports.validatetions = validations => async (req, res, next) => {
+export const validatetions = validations => async (req, res, next) => {
     await Promise.all(validations.map(validation => validation.run(req)));
 
     const errors = validationResult(req);
