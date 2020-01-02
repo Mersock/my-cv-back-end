@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+
 const Schema = mongoose.Schema
 
 const roleSchema = new Schema({
@@ -21,4 +22,4 @@ roleSchema.options.toJSON = {
 
 const Role = mongoose.model('Role', roleSchema, 'roles')
 
-module.exports = Role
+export default Role

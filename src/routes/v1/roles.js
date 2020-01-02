@@ -1,13 +1,14 @@
-const express = require('express')
+import express from 'express'
+import { list, show, update, create, destroy } from '../../controllers/roles'
+import { authLogin } from '../../middlewares/authentications'
+import { validateCreate, validateShow, validateUpdate, validateDelete } from '../../validations/roles'
+
 const router = new express.Router()
-const roleController = require('../../controllers/roles')
-const { authLogin } = require('../../middlewares/authentications')
-const { validateCreate, validateShow, validateUpdate, validateDelete } = require('../../validations/roles')
 
-router.get('/v1/roles', authLogin, roleController.list)
-router.get('/v1/roles/:id', authLogin, validateShow, roleController.show)
-router.patch('/v1/roles/:id', authLogin, validateUpdate, roleController.update)
-router.post('/v1/roles', authLogin, validateCreate, roleController.create)
-router.delete('/v1/roles/:id', authLogin, validateDelete, roleController.delete)
+router.get('/v1/roles', authLogin, list)
+router.get('/v1/roles/:id', authLogin, validateShow, show)
+router.patch('/v1/roles/:id', authLogin, validateUpdate, update)
+router.post('/v1/roles', authLogin, validateCreate, create)
+router.delete('/v1/roles/:id', authLogin, validateDelete, destroy)
 
-module.exports = router
+export default router
