@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken')
-const { responseWithCustomError } = require('../utils/response')
-const fs = require('fs')
-const path = require('path')
+import jwt from 'jsonwebtoken'
+import fs from 'fs'
+import path from 'path'
+import { responseWithCustomError } from '../utils/response'
+
 const publicKey = fs.readFileSync(path.join(__dirname, '../keys') + '/public.key', 'utf8');
 
-
-exports.authLogin = (req, res, next) => {
+export const authLogin = (req, res, next) => {
     try {
         const token = req.header('x-access-token')
         const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
