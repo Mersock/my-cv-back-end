@@ -1,53 +1,53 @@
-const Role = require('../models/roles');
-const { responseCollection, responseWithError, responseWithCustomError } = require('../utils/response')
+import Role from '../models/roles';
+import { responseCollection, responseWithError, responseWithCustomError } from '../utils/response'
 
-exports.list = async (req, res) => {
+export const list = async (req, res) => {
     try {
-        const roles = await Role.find()
+        let roles = await Role.find()
         res.status(200).json(responseCollection(roles))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.show = async (req, res) => {
-    const _id = req.params.id
+export const show = async (req, res) => {
+    let _id = req.params.id
     try {
-        const roles = await Role.findById(_id)
+        let roles = await Role.findById(_id)
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(roles))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.update = async (req, res) => {
-    const _id = req.params.id
+export const update = async (req, res) => {
+    let _id = req.params.id
     try {
-        const roles = await Role.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
+        let roles = await Role.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(roles))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 
 }
 
-module.exports.create = async (req, res) => {
-    const roles = new Role(req.body)
+export const create = async (req, res) => {
+    let roles = new Role(req.body)
     try {
         await roles.save()
         res.status(201).send(responseCollection(roles))
@@ -56,17 +56,17 @@ module.exports.create = async (req, res) => {
     }
 }
 
-exports.delete = async (req, res) => {
-    const _id = req.params.id
+export const destroy = async (req, res) => {
+    let _id = req.params.id
     try {
-        const roles = await Role.findByIdAndDelete(_id)
+        let roles = await Role.findByIdAndDelete(_id)
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }

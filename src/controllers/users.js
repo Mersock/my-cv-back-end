@@ -1,81 +1,81 @@
-const User = require('../models/users')
-const { responseWithError, responseWithCustomError, responseCollection } = require('../utils/response')
+import User from '../models/users'
+import { responseWithError, responseWithCustomError, responseCollection } from '../utils/response'
 
-exports.list = async (req, res) => {
+export const list = async (req, res) => {
     try {
-        const user = await User.find()
+        let user = await User.find()
         res.status(200).json(responseCollection(user))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.show = async (req, res) => {
-    const _id = req.params.id
+export const show = async (req, res) => {
+    let _id = req.params.id
     try {
-        const user = await User.findById(_id)
+        let user = await User.findById(_id)
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(user))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.create = async (req, res) => {
-    const user = new User(req.body)
+export const create = async (req, res) => {
+    let user = new User(req.body)
     try {
         await user.save()
         res.status(201).send(responseCollection(user))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.update = async (req, res) => {
-    const _id = req.params.id
+export const update = async (req, res) => {
+    let _id = req.params.id
     try {
-        const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
+        let user = await User.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(user))
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 
 }
 
-exports.delete = async (req, res) => {
-    const _id = req.params.id
+export const destroy = async (req, res) => {
+    let _id = req.params.id
     try {
-        const user = await User.findByIdAndDelete(_id)
+        let user = await User.findByIdAndDelete(_id)
         if (!user) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.listWithPermission = async (req, res) => {
+export const listWithPermission = async (req, res) => {
     try {
         return await User.find()
             .populate({
@@ -87,14 +87,14 @@ exports.listWithPermission = async (req, res) => {
             })
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
-exports.showWithPermissions = async (req, res) => {
-    const _id = req.params.id
+export const showWithPermissions = async (req, res) => {
+    let _id = req.params.id
     try {
         return await User.findOne({ _id })
             .populate({
@@ -109,7 +109,7 @@ exports.showWithPermissions = async (req, res) => {
             })
     } catch (error) {
         console.log(error)
-        const errors = []
+        let errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }

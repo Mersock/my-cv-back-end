@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcryptjs')
+import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     firstname: {
@@ -47,13 +47,13 @@ userSchema.options.toJSON = {
 }
 
 userSchema.pre('save', async function (next) {
-    const user = this
+    let user = this
     user.password = await bcrypt.hashSync(user.password, process.env.SECRET_PASSWORD)
     next()
 })
 
 userSchema.pre('findOneAndUpdate', async function (next) {
-    const user = this.getUpdate()
+    let user = this.getUpdate()
     if (user.$set.password) {
         user.$set.password = await bcrypt.hash(user.$set.password, 10)
     }
@@ -62,4 +62,4 @@ userSchema.pre('findOneAndUpdate', async function (next) {
 
 const User = mongoose.model('User', userSchema, 'users')
 
-module.exports = User;
+export default User
