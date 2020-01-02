@@ -1,7 +1,7 @@
-const Permission = require('../models/permissions');
-const { responseCollection, responseWithError, responseWithCustomError } = require('../utils/response')
+import Permission from '../models/permissions';
+import { responseCollection, responseWithError, responseWithCustomError } from '../utils/response'
 
-exports.list = async (req, res) => {
+export const list = async (req, res) => {
     try {
         const permissions = await Permission.find()
         res.status(200).json(responseCollection(permissions))
@@ -13,7 +13,7 @@ exports.list = async (req, res) => {
     }
 }
 
-exports.show = async (req, res) => {
+export const show = async (req, res) => {
     const _id = req.params.id
     try {
         const permissions = await Permission.findById(_id)
@@ -29,7 +29,7 @@ exports.show = async (req, res) => {
     }
 }
 
-exports.update = async (req, res) => {
+export const update = async (req, res) => {
     const _id = req.params.id
     try {
         const permissions = await Permission.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
@@ -46,7 +46,7 @@ exports.update = async (req, res) => {
 
 }
 
-module.exports.create = async (req, res) => {
+export const create = async (req, res) => {
     const permissions = new Permission(req.body)
     try {
         await permissions.save()
@@ -56,7 +56,7 @@ module.exports.create = async (req, res) => {
     }
 }
 
-exports.delete = async (req, res) => {
+export const destroy = async (req, res) => {
     const _id = req.params.id
     try {
         const permissions = await Permission.findByIdAndDelete(_id)

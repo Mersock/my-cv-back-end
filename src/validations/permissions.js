@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const { validatetions } = require('../utils/validations')
-const { body, param } = require('express-validator')
-const Permission = require('../models/permissions');
+import _ from 'lodash'
+import { body, param } from 'express-validator'
+import { validatetions } from '../utils/validations'
+import Permission from '../models/permissions'
 
-exports.validateCreate = validatetions([
+export const validateCreate = validatetions([
     body('name').notEmpty().withMessage('name is required.')
         .custom(async name => {
             const permissions = await Permission.findOne({ name })
@@ -13,7 +13,7 @@ exports.validateCreate = validatetions([
         })
 ]);
 
-exports.validateUpdate = validatetions([
+export const validateUpdate = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.'),
     body('name').optional().notEmpty().withMessage('name must be required.')
         .custom(async (value, { req }) => {
@@ -25,10 +25,10 @@ exports.validateUpdate = validatetions([
         })
 ])
 
-exports.validateShow = validatetions([
+export const validateShow = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
 
-exports.validateDelete = validatetions([
+export const validateDelete = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
