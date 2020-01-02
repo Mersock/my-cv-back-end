@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { responseWithCustomError } from '../utils/response'
 import { signOption, saveRefreshToken, getUserFromRefreshToken, destroyToken } from '../utils/authentications'
 import User from '../models/users'
-import client from '../db/redis'
 
 export const login = async (req, res) => {
     try {
