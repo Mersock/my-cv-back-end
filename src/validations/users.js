@@ -1,11 +1,11 @@
-const _ = require('lodash')
-const { validatetions } = require('../utils/validations')
-const { body, param } = require('express-validator')
-const User = require('../models/users')
-const Permissions = require('../models/permissions')
-const mongoose = require('mongoose')
+import _ from 'lodash'
+import { validatetions } from '../utils/validations'
+import { body, param } from 'express-validator'
+import User from '../models/users'
+import Permissions from '../models/permissions'
+import mongoose from 'mongoose'
 
-exports.validateCreate = validatetions([
+export const validateCreate = validatetions([
     body('username').isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async username => {
             const user = await User.findOne({ username })
@@ -38,7 +38,7 @@ exports.validateCreate = validatetions([
         })
 ]);
 
-exports.validateUpdate = validatetions([
+export const validateUpdate = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.'),
     body('username').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async (value, { req }) => {
@@ -71,11 +71,11 @@ exports.validateUpdate = validatetions([
         })
 ])
 
-exports.validateShow = validatetions([
+export const validateShow = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
 
-exports.validateDelete = validatetions([
+export const validateDelete = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
 

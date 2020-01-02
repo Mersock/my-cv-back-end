@@ -1,9 +1,11 @@
-const express = require('express')
-const guard = require('express-jwt-permissions')()
+import express from 'express'
+import permissions from 'express-jwt-permissions'
+import { list, listWithPermission, show, showWithPermissions, create, update, destroy } from '../../controllers/users'
+import { authLogin } from '../../middlewares/authentications'
+import { validateCreate, validateUpdate, validateShow, validateDelete } from '../../validations/users'
+
+const guard = permissions()
 const router = new express.Router()
-const userController = require('../../controllers/users')
-const { authLogin } = require('../../middlewares/authentications')
-const { validateCreate, validateUpdate, validateShow, validateDelete } = require('../../validations/users')
 
 const listMiddleware = [
     authLogin,
@@ -34,12 +36,12 @@ const deleteMiddleware = [
     guard.check(['admin'], ['users:delete'])
 ]
 
-router.get('/v1/users', listMiddleware, userController.list)
-router.get('/v1/users/permissions', listPermissinsMiddleware, userController.listWithPermission)
-router.get('/v1/users/:id', readMiddleware, validateShow, userController.show)
-router.get('/v1/users/:id/permissions', readPermisisonsMiddleware, validateShow, userController.showWithPermissions)
-router.post('/v1/users', createMiddleware, validateCreate, userController.create)
-router.patch('/v1/users/:id', updateMiddleware, validateUpdate, userController.update)
-router.delete('/v1/users/:id', deleteMiddleware, validateDelete, userController.delete)
+router.get('/v1/users', listMiddleware, list)
+router.get('/v1/users/permissions', listPermissinsMiddleware, listWithPermission)
+router.get('/v1/users/:id', readMiddleware, validateShow, show)
+router.get('/v1/users/:id/permissions', readPermisisonsMiddleware, validateShow, showWithPermissions)
+router.post('/v1/users', createMiddleware, validateCreate, create)
+router.patch('/v1/users/:id', updateMiddleware, validateUpdate, update)
+router.delete('/v1/users/:id', deleteMiddleware, validateDelete, destroy)
 
-module.exports = router
+export default router
