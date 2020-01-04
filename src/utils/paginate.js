@@ -20,7 +20,7 @@ export const setOptions = (page, limit, sort = { createdAt: 1 }) => {
     }
 }
 
-export const querySort = (column, type = 'asc') => {
+export const querySort = (column = 'createdAt', type = 'asc') => {
     let sort = {}
     sort[column] = type == 'asc' ? 1 : -1
     return sort
