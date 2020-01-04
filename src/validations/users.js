@@ -1,13 +1,14 @@
 import _ from 'lodash'
 import { validatetions } from '../utils/validations'
-import { body, param, query } from 'express-validator'
+import { body, param, query, check } from 'express-validator'
 import User from '../models/users'
 import Permissions from '../models/permissions'
 import mongoose from 'mongoose'
 
 export const validateList = validatetions([
     query('limit').optional().isNumeric().withMessage('limit must be numeric.'),
-    query('page').optional().isNumeric().withMessage('page must be numeric.')
+    query('page').optional().isNumeric().withMessage('page must be numeric.'),
+    query('sortType').isIn(['asc', 'desc']).withMessage('sortType can be either asc or desc'),
 ])
 
 export const validateCreate = validatetions([
