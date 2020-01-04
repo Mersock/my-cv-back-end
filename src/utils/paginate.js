@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-export const setOptions = (page, limit, sort = { createdAt: 1 }) => {
+export const setOptions = (page, limit, sort = { createdAt: 1 }, populate = null, select = null) => {
     let customLabels = {
         totalDocs: 'dataCount',
         docs: 'data',
@@ -16,6 +16,8 @@ export const setOptions = (page, limit, sort = { createdAt: 1 }) => {
         page: page || 1,
         limit: limit || 10,
         sort: sort,
+        populate: populate,
+        select: select,
         customLabels: customLabels
     }
 }
