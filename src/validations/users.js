@@ -8,7 +8,7 @@ import mongoose from 'mongoose'
 export const validateList = validatetions([
     query('limit').optional().isNumeric().withMessage('limit must be numeric.'),
     query('page').optional().isNumeric().withMessage('page must be numeric.'),
-    query('sortType').isIn(['asc', 'desc']).withMessage('sortType can be either asc or desc'),
+    query('sortType').optional().isIn(['asc', 'desc']).withMessage('sortType can be either asc or desc'),
 ])
 
 export const validateCreate = validatetions([
