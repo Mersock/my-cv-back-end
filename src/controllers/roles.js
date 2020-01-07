@@ -1,9 +1,16 @@
+import _ from 'lodash'
 import Role from '../models/roles';
+import { setOptions, queryLike, querySort } from '../utils/paginate'
 import { responseCollection, responseWithError, responseWithCustomError } from '../utils/response'
 
 export const list = async (req, res) => {
     try {
-        let roles = await Role.find()
+        let { page, limit } = req.query
+        let { name } = req.query
+        let { sortBy, sortType } = req.query
+        let filterLike = queryLike({ name })
+        let sort = querySort(sortBy, sortType)
+        let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort))
         res.status(200).json(responseCollection(roles))
     } catch (error) {
         console.log(error)
