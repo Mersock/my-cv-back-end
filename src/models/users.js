@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const Schema = mongoose.Schema;
 
@@ -59,6 +60,8 @@ userSchema.pre('findOneAndUpdate', async function (next) {
     }
     next()
 })
+
+userSchema.plugin(mongoosePaginate)
 
 const User = mongoose.model('User', userSchema, 'users')
 

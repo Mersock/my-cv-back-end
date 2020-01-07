@@ -1,10 +1,17 @@
+import _ from 'lodash'
 import Permission from '../models/permissions';
+import { setOptions, queryLike, querySort } from '../utils/paginate'
 import { responseCollection, responseWithError, responseWithCustomError } from '../utils/response'
 
 export const list = async (req, res) => {
     try {
-        let permissions = await Permission.find()
-        res.status(200).json(responseCollection(permissions))
+        let { page, limit } = req.query
+        let { name } = req.query
+        let { sortBy, sortType } = req.query
+        let filterLike = queryLike({ name })
+        let sort = querySort(sortBy, sortType)
+        let permissions = await Permission.paginate(_.merge(filterLike), setOptions(page, limit, sort))
+        res.status(200).json(permissions)
     } catch (error) {
         console.log(error)
         let errors = []

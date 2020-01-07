@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const Schema = mongoose.Schema
 
@@ -6,7 +7,13 @@ const roleSchema = new Schema({
     name: {
         type: String,
         required: true,
-    }
+    },
+    permissions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Permission'
+        }
+    ]
 }, {
     timestamps: true
 })
@@ -19,6 +26,8 @@ roleSchema.options.toJSON = {
         return role
     }
 }
+
+roleSchema.plugin(mongoosePaginate)
 
 const Role = mongoose.model('Role', roleSchema, 'roles')
 

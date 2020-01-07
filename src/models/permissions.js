@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
+
 
 const Schema = mongoose.Schema
 const permissionSchema = new Schema({
@@ -18,6 +20,8 @@ permissionSchema.options.toJSON = {
         return permission
     }
 }
+
+permissionSchema.plugin(mongoosePaginate)
 
 const Permission = mongoose.model('Permission', permissionSchema, 'permissions')
 

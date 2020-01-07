@@ -1,10 +1,17 @@
+import _ from 'lodash'
 import User from '../models/users'
+import { setOptions, queryLike, querySort } from '../utils/paginate'
 import { responseWithError, responseWithCustomError, responseCollection } from '../utils/response'
 
 export const list = async (req, res) => {
     try {
-        let user = await User.find()
-        res.status(200).json(responseCollection(user))
+        let { page, limit } = req.query
+        let { username, firstname, lastname } = req.query
+        let { sortBy, sortType } = req.query
+        let filterLike = queryLike({ username, firstname, lastname })
+        let sort = querySort(sortBy, sortType)
+        let user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort))
+        res.status(200).json(user)
     } catch (error) {
         console.log(error)
         let errors = []
@@ -77,14 +84,13 @@ export const destroy = async (req, res) => {
 
 export const listWithPermission = async (req, res) => {
     try {
-        return await User.find()
-            .populate({
-                path: 'permissions',
-                select: ['name'],
-            })
-            .exec(function (err, permissions) {
-                res.status(200).json(responseCollection(permissions))
-            })
+        let { page, limit } = req.query
+        let { username, firstname, lastname } = req.query
+        let { sortBy, sortType } = req.query
+        let filterLike = queryLike({ username, firstname, lastname })
+        let sort = querySort(sortBy, sortType)
+        let user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'permissions'))
+        res.status(200).json(user)
     } catch (error) {
         console.log(error)
         let errors = []
