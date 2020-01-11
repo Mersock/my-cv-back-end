@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { validatetions } from '../utils/validations'
 import { body, param, query, check } from 'express-validator'
 import User from '../models/users'
-import Permissions from '../models/permissions'
+import Role from '../models/roles'
 import mongoose from 'mongoose'
 
 export const validateList = validatetions([
@@ -23,23 +23,22 @@ export const validateCreate = validatetions([
         .isLength({ min: 6 }).withMessage('password must be least 6 chars long.'),
     body('firstname').notEmpty().withMessage('firstname must be require.'),
     body('lastname').notEmpty().withMessage('lastname must be require.'),
-    body('permissions').optional()
-        .isArray().withMessage('Permissions must be array.')
-
+    body('roles').optional()
+        .isArray().withMessage('roles must be array.')
         .custom(async (value, { req }) => {
             let ids = _.isArray(value) ? value : [];
             let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
             if (findDuplicates(ids).length != 0) {
-                throw new Error(`permissions ${findDuplicates(value).toString()} duplicate.`)
+                throw new Error(`roles ${findDuplicates(value).toString()} duplicate.`)
             }
         })
         .custom(async (value, { req }) => {
             let ids = _.isArray(value) ? value : [];
             let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
-            let permissions = await Permissions.find({ "_id": { $in: id } })
-            let permissionsId = _.map(permissions, '_id')
-            if (!_.isEqual(_.sortBy(id), _.sortBy(permissionsId))) {
-                throw new Error(`permissions invalid value`)
+            let roles = await Role.find({ "_id": { $in: id } })
+            let rolesId = _.map(roles, '_id')
+            if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
+                throw new Error(`roles invalid value`)
             }
         })
 ]);
@@ -57,22 +56,22 @@ export const validateUpdate = validatetions([
     body('password').optional().isLength({ min: 6 }).withMessage('password must be least 6 chars long.'),
     body('firstname').optional().notEmpty().withMessage('firstname must not empty.'),
     body('lastname').optional().notEmpty().withMessage('lastname must not empty.'),
-    body('permissions').optional()
-        .isArray().withMessage('Permissions must be array.')
+    body('roles').optional()
+        .isArray().withMessage('roles must be array.')
         .custom(async (value, { req }) => {
             let ids = _.isArray(value) ? value : [];
             let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
             if (findDuplicates(ids).length != 0) {
-                throw new Error(`permissions ${findDuplicates(value).toString()} duplicate.`)
+                throw new Error(`roles ${findDuplicates(value).toString()} duplicate.`)
             }
         })
         .custom(async (value, { req }) => {
             let ids = _.isArray(value) ? value : [];
             let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
-            let permissions = await Permissions.find({ "_id": { $in: id } })
-            let permissionsId = _.map(permissions, '_id')
-            if (!_.isEqual(_.sortBy(id), _.sortBy(permissionsId))) {
-                throw new Error(`permissions invalid value`)
+            let roles = await Role.find({ "_id": { $in: id } })
+            let rolesId = _.map(roles, '_id')
+            if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
+                throw new Error(`roles invalid value`)
             }
         })
 ])

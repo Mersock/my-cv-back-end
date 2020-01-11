@@ -1,6 +1,6 @@
 import express from 'express'
 import permissions from 'express-jwt-permissions'
-import { list, listWithPermission, show, showWithPermissions, create, update, destroy } from '../../controllers/users'
+import { list, show, create, update, destroy, listWithRoles, showWithRoles } from '../../controllers/users'
 import { authLogin } from '../../middlewares/authentications'
 import { validateCreate, validateUpdate, validateShow, validateDelete, validateList } from '../../validations/users'
 
@@ -11,7 +11,7 @@ const listMiddleware = [
     authLogin,
     guard.check(['admin'], ['users:list'])
 ]
-const listPermissinsMiddleware = [
+const listRolesMiddleware = [
     authLogin,
     guard.check(['admin'], ['users:list', 'permissions:list'])
 ]
@@ -19,7 +19,7 @@ const readMiddleware = [
     authLogin,
     guard.check(['admin'], ['users:read'])
 ]
-const readPermisisonsMiddleware = [
+const readRolesMiddleware = [
     authLogin,
     guard.check(['admin'], ['users:read', 'permissions:list'])
 ]
@@ -37,9 +37,9 @@ const deleteMiddleware = [
 ]
 
 router.get('/v1/users', listMiddleware, validateList, list)
-router.get('/v1/users/permissions', listPermissinsMiddleware, listWithPermission)
+router.get('/v1/users/roles', listRolesMiddleware, listWithRoles)
 router.get('/v1/users/:id', readMiddleware, validateShow, show)
-router.get('/v1/users/:id/permissions', readPermisisonsMiddleware, validateShow, showWithPermissions)
+router.get('/v1/users/:id/roles', readRolesMiddleware, validateShow, showWithRoles)
 router.post('/v1/users', createMiddleware, validateCreate, create)
 router.patch('/v1/users/:id', updateMiddleware, validateUpdate, update)
 router.delete('/v1/users/:id', deleteMiddleware, validateDelete, destroy)

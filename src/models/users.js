@@ -27,10 +27,10 @@ const userSchema = new Schema({
         minlength: 6,
         trim: true
     },
-    permissions: [
+    roles: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Permission'
+            ref: 'Role'
         }
     ]
 }, {

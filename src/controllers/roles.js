@@ -11,7 +11,7 @@ export const list = async (req, res) => {
         let filterLike = queryLike({ name })
         let sort = querySort(sortBy, sortType)
         let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort))
-        res.status(200).json(responseCollection(roles))
+        res.status(200).json(roles)
     } catch (error) {
         console.log(error)
         let errors = []
@@ -71,6 +71,44 @@ export const destroy = async (req, res) => {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
+    } catch (error) {
+        console.log(error)
+        let errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
+
+export const listWithPermission = async (req, res) => {
+    try {
+        let { page, limit } = req.query
+        let { name } = req.query
+        let { sortBy, sortType } = req.query
+        let filterLike = queryLike({ name })
+        let sort = querySort(sortBy, sortType)
+        let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'permissions'))
+        res.status(200).json(roles)
+    } catch (error) {
+        console.log(error)
+        let errors = []
+        errors.push(error)
+        res.status(400).send(responseWithError(errors, 400))
+    }
+}
+
+export const showWithPermissions = async (req, res) => {
+    let _id = req.params.id
+    try {
+        return await Role.findOne({ _id })
+            .populate({
+                path: 'permissions',
+            })
+            .exec(function (err, permissions) {
+                if (!permissions) {
+                    return res.status(404).send(responseWithCustomError('Not Found.', 404))
+                }
+                res.status(200).json(responseCollection(permissions))
+            })
     } catch (error) {
         console.log(error)
         let errors = []

@@ -82,14 +82,14 @@ export const destroy = async (req, res) => {
     }
 }
 
-export const listWithPermission = async (req, res) => {
+export const listWithRoles = async (req, res) => {
     try {
         let { page, limit } = req.query
         let { username, firstname, lastname } = req.query
         let { sortBy, sortType } = req.query
         let filterLike = queryLike({ username, firstname, lastname })
         let sort = querySort(sortBy, sortType)
-        let user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'permissions'))
+        let user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'roles'))
         res.status(200).json(user)
     } catch (error) {
         console.log(error)
@@ -99,19 +99,18 @@ export const listWithPermission = async (req, res) => {
     }
 }
 
-export const showWithPermissions = async (req, res) => {
+export const showWithRoles = async (req, res) => {
     let _id = req.params.id
     try {
         return await User.findOne({ _id })
             .populate({
-                path: 'permissions',
-                select: ['name'],
+                path: 'roles',
             })
-            .exec(function (err, permissions) {
-                if (!permissions) {
+            .exec(function (err, roles) {
+                if (!roles) {
                     return res.status(404).send(responseWithCustomError('Not Found.', 404))
                 }
-                res.status(200).json(responseCollection(permissions))
+                res.status(200).json(responseCollection(roles))
             })
     } catch (error) {
         console.log(error)
