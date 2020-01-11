@@ -8,6 +8,7 @@ import usersRouter from './routes/v1/users'
 import authRouter from './routes/authentications'
 import roleRouter from './routes/v1/roles';
 import permissionsRouter from './routes/v1/permissions'
+import clientRouter from './routes/v1/client'
 import { handleRequest, handleRouter, handleRolePermissions } from './middlewares/handle'
 
 const app = express()
@@ -33,6 +34,7 @@ app.use(postsRouter)
 app.use(usersRouter)
 app.use(roleRouter)
 app.use(permissionsRouter)
+app.use(clientRouter)
 
 app.use(handleRolePermissions)
 
