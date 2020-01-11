@@ -7,16 +7,6 @@ import { validateCreate, validateList, validateUpdate, validateShow, validateDel
 const guard = permissions()
 const router = new express.Router();
 
-const listMiddleware = [
-    authLogin,
-    guard.check(['admin'], ['posts:list'])
-]
-
-const readMiddleware = [
-    authLogin,
-    guard.check(['admin'], ['posts:read'])
-]
-
 const createMiddleware = [
     authLogin,
     guard.check(['admin'], ['posts.create'])
@@ -30,9 +20,9 @@ const deleteMiddleware = [
     guard.check(['admin'], ['posts:delete'])
 ]
 
-router.get('/v1/posts', listMiddleware, validateList, list)
+router.get('/v1/posts', validateList, list)
 router.post('/v1/posts', createMiddleware, validateCreate, create)
-router.get('/v1/posts/:id', readMiddleware, validateShow, show)
+router.get('/v1/posts/:id', validateShow, show)
 router.patch('/v1/posts/:id', updateMiddleware, validateUpdate, update)
 router.delete('/v1/posts/:id', deleteMiddleware, validateDelete, destroy)
 
