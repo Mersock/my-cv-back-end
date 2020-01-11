@@ -37,7 +37,6 @@ export const queryEquals = (filter = {}) => {
             _.merge(filterEquals, filterString)
         }
     })
-    console.log(filterEquals)
     return filterEquals
 }
 

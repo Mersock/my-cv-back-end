@@ -7,17 +7,19 @@ import User from '../models/users'
 export const login = async (req, res) => {
     try {
         let { username, password } = req.body
-        return User.findOne({ username }).populate({
+        return await User.findOne({ username }).populate({
             path: 'permissions',
         }).exec(function (err, user) {
-            let isMatch = bcrypt.compareSync(password, user.password)
-            if (isMatch) {
-                let accessToken = signOption(user)
-                let refreshToken = saveRefreshToken(user)
-                return res.status(200).send({
-                    accessToken,
-                    refreshToken
-                })
+            if (user) {
+                let isMatch = bcrypt.compareSync(password, user.password)
+                if (isMatch) {
+                    let accessToken = signOption(user)
+                    let refreshToken = saveRefreshToken(user)
+                    return res.status(200).send({
+                        accessToken,
+                        refreshToken
+                    })
+                }
             }
             res.status(401).send(responseWithCustomError('Unauthorized.', 401))
         })
