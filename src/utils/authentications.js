@@ -8,7 +8,7 @@ import randtoken from 'rand-token'
 const privateKey = fs.readFileSync(path.join(__dirname, '../keys') + '/private.key', 'utf8');
 
 export const signOption = (user) => {
-    let permisisons = responsePermisisons(user.permissions)
+    let permisisons = responsePermisisons(user.roles)
     let payload = {
         id: user._id,
         username: user.username,
@@ -40,6 +40,15 @@ export const destroyToken = (userId, refreshToken) => {
     client.del(`refreshToken_${userId}_${refreshToken}`);
 }
 
-export const responsePermisisons = permisisons => {
-    return _.map(permisisons, 'name')
+export const responsePermisisons = roles => {
+    let rolesList = _.map(roles, 'name')
+    let permisisons = []
+    _.forEach(roles, function (role) {
+        permisisons = role.permissions.map(permission => permission)
+    })
+    let permisisonsList = _.map(permisisons, 'name')
+    if (!_.isEmpty(permisisonsList)) {
+        return [...rolesList, ...permisisonsList]
+    }
+    return rolesList
 }

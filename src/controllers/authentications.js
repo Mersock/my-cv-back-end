@@ -8,7 +8,11 @@ export const login = async (req, res) => {
     try {
         let { username, password } = req.body
         return await User.findOne({ username }).populate({
-            path: 'permissions',
+            path: 'roles',
+            populate: {
+                path: 'permissions',
+                select: ['name']
+            }
         }).exec(function (err, user) {
             if (user) {
                 let isMatch = bcrypt.compareSync(password, user.password)
