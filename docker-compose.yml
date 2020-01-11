@@ -13,36 +13,14 @@ services:
     ports:
       - "3400:3000"
     networks: 
-      - my-cv-back-end
-    depends_on:
-      - mongo-db
-      - redis
-    links:
-      - mongo-db  
+      - my-cv-services
     env_file:
       - .env.dev  
     command: ["npm","run","dev"] 
-  mongo-db:
-    image: mongo:4.2.0
-    container_name: my-cv-mongo-db
-    ports:
-      - "27017:27017" 
-    networks: 
-      - my-cv-back-end  
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 12345678    
-  redis:
-    image: redis:5.0.7    
-    container_name: my-cv-redis
-    ports: 
-      - "6379:6379"
-    networks: 
-      - my-cv-back-end    
 
 networks: 
-  my-cv-back-end:
-    name: my-cv-back-end
+  my-cv-services:
+    external: true
     driver: bridge      
 
   
