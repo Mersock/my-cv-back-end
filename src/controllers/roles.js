@@ -11,7 +11,7 @@ export const list = async (req, res) => {
         let filterLike = queryLike({ name })
         let sort = querySort(sortBy, sortType)
         let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort))
-        res.status(200).json(responseCollection(roles))
+        res.status(200).json(roles)
     } catch (error) {
         console.log(error)
         let errors = []
