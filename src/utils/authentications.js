@@ -23,7 +23,7 @@ export const signOption = (user) => {
 }
 
 export const saveRefreshToken = user => {
-    let refreshToken = randtoken.uid(256)
+    let refreshToken = randtoken.uid(128)
     let exp = (60 * 60 * 24)
     client.set(`refreshToken_${user._id}_${refreshToken}`, JSON.stringify(user), 'EX', exp)
     return refreshToken
@@ -36,7 +36,7 @@ export const getUserFromRefreshToken = (userId, refreshToken) => {
     return user
 }
 
-export const destroyToken = (userId, refreshToken) => {
+export const destroyRefreshToken = (userId, refreshToken) => {
     client.del(`refreshToken_${userId}_${refreshToken}`);
 }
 

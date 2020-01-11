@@ -6,6 +6,6 @@ const router = new express.Router()
 
 router.post('/login', validateLogin, login)
 router.post('/refreshToken', validateRefreshToken, refreshToken)
-router.post('/logout', logout)
+router.post('/reject/refreshToken', logout)
 
 export default router
