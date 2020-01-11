@@ -102,7 +102,6 @@ export const showWithPermissions = async (req, res) => {
         return await Role.findOne({ _id })
             .populate({
                 path: 'permissions',
-                select: ['name'],
             })
             .exec(function (err, permissions) {
                 if (!permissions) {
