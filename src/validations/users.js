@@ -37,7 +37,7 @@ export const validateCreate = validatetions([
             let ids = _.isArray(value) ? value : [];
             let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
             let permissions = await Permissions.find({ "_id": { $in: id } })
-            permissionsId = _.map(permissions, '_id')
+            let permissionsId = _.map(permissions, '_id')
             if (!_.isEqual(_.sortBy(id), _.sortBy(permissionsId))) {
                 throw new Error(`permissions invalid value`)
             }
@@ -70,7 +70,7 @@ export const validateUpdate = validatetions([
             let ids = _.isArray(value) ? value : [];
             let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
             let permissions = await Permissions.find({ "_id": { $in: id } })
-            permissionsId = _.map(permissions, '_id')
+            let permissionsId = _.map(permissions, '_id')
             if (!_.isEqual(_.sortBy(id), _.sortBy(permissionsId))) {
                 throw new Error(`permissions invalid value`)
             }
