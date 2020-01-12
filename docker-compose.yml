@@ -11,7 +11,7 @@ services:
       - .:/usr/app
       - .env.dev:/usr/app/.env.dev
     ports:
-      - "3400:3000"
+      - "3400:3400"
     networks: 
       - my-cv-services
     env_file:
