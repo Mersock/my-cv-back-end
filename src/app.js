@@ -4,12 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import './db/mongodb'
 import './db/redis'
-import postsRouter from './routes/v1/posts'
-import usersRouter from './routes/v1/users'
-import authRouter from './routes/authentications'
-import roleRouter from './routes/v1/roles';
-import permissionsRouter from './routes/v1/permissions'
-import clientRouter from './routes/v1/client'
+import router from './routes/index';
 import { handleRequest, handleRouter, handleRolePermissions } from './middlewares/handle'
 
 const app = express()
@@ -32,14 +27,7 @@ app.get('/', (req, res) => {
     res.send('This is My-CV APIs.')
 })
 
-app.use(authRouter)
-app.use(postsRouter)
-app.use(usersRouter)
-app.use(roleRouter)
-app.use(permissionsRouter)
-app.use(clientRouter)
-
-app.use(handleRolePermissions)
+app.use(router)
 
 app.use('*', handleRouter);
 
