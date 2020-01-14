@@ -29,6 +29,9 @@ app.get('/', (req, res) => {
 
 app.use(router)
 
+app.use(handleRolePermissions)
+
+
 app.use('*', handleRouter);
 
 export default app
