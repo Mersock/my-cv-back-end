@@ -20,6 +20,7 @@ export const login = async (req, res) => {
                     let accessToken = signOption(user)
                     let refreshToken = saveRefreshToken(user)
                     return res.status(200).send({
+                        tokenType: 'Bearer',
                         accessToken,
                         refreshToken
                     })
