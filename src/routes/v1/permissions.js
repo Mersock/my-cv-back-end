@@ -1,6 +1,6 @@
 import express from 'express'
 import permissions from 'express-jwt-permissions'
-import { list, show, update, create, destroy } from '../../controllers/permissions'
+import { list, show, update, create, destroy } from '../../controllers/v1/permissions'
 import { authLogin } from '../../middlewares/authentications'
 import { validateCreate, validateShow, validateUpdate, validateDelete } from '../../validations/permissions'
 
