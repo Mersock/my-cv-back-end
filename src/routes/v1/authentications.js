@@ -1,6 +1,6 @@
 import express from 'express'
-import { login, refreshToken, logout } from '../controllers/authentications'
-import { validateLogin, validateRefreshToken } from '../validations/authentications'
+import { login, refreshToken, logout } from '../../controllers/authentications'
+import { validateLogin, validateRefreshToken } from '../../validations/authentications'
 
 const router = new express.Router()
 
