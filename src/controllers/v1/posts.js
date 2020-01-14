@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import Post from '../models/posts';
-import { setOptions, queryLike, querySort, queryEquals } from '../utils/paginate'
-import { responseWithError, responseWithCustomError, responseCollection } from '../utils/response'
+import Post from '../../models/posts';
+import { setOptions, queryLike, querySort, queryEquals } from '../../utils/paginate'
+import { responseWithError, responseWithCustomError, responseCollection } from '../../utils/response'
 
 
 

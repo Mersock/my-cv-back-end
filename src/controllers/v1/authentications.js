@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs'
 import _ from 'lodash'
-import { responseWithCustomError } from '../utils/response'
-import { signOption, saveRefreshToken, getUserFromRefreshToken, destroyRefreshToken } from '../utils/authentications'
-import User from '../models/users'
+import { responseWithCustomError } from '../../utils/response'
+import { signOption, saveRefreshToken, getUserFromRefreshToken, destroyRefreshToken } from '../../utils/authentications'
+import User from '../../models/users'
 
 export const login = async (req, res) => {
     try {
