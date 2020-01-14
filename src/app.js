@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import './db/mongodb'
 import './db/redis'
 import postsRouter from './routes/v1/posts'
@@ -16,6 +17,8 @@ const app = express()
 dotenv.config({
     path: '/.env.dev'
 })
+
+app.use(cors())
 
 app.use(bodyParser.urlencoded({
     extended: true
