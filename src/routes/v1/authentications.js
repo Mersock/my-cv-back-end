@@ -4,8 +4,8 @@ import { validateLogin, validateRefreshToken } from '../validations/authenticati
 
 const router = new express.Router()
 
-router.post('/login', validateLogin, login)
-router.post('/refreshToken', validateRefreshToken, refreshToken)
-router.post('/reject/refreshToken', logout)
+router.post('/v1/login', validateLogin, login)
+router.post('/v1/refreshToken', validateRefreshToken, refreshToken)
+router.post('/v1/reject/refreshToken', logout)
 
 export default router
