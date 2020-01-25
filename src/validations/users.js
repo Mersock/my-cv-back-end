@@ -14,7 +14,7 @@ export const validateList = validatetions([
 export const validateCreate = validatetions([
     body('username').isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async username => {
-            let user = await User.findOne({ username })
+            const user = await User.findOne({ username })
             if (!_.isEmpty(user)) {
                 throw new Error(`username is ${username} has been taken`)
             }
@@ -26,17 +26,17 @@ export const validateCreate = validatetions([
     body('roles').optional()
         .isArray().withMessage('roles must be array.')
         .custom(async (value, { req }) => {
-            let ids = _.isArray(value) ? value : [];
-            let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            const ids = _.isArray(value) ? value : [];
+            const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
             if (findDuplicates(ids).length != 0) {
                 throw new Error(`roles ${findDuplicates(value).toString()} duplicate.`)
             }
         })
         .custom(async (value, { req }) => {
-            let ids = _.isArray(value) ? value : [];
-            let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
-            let roles = await Role.find({ "_id": { $in: id } })
-            let rolesId = _.map(roles, '_id')
+            const ids = _.isArray(value) ? value : [];
+            const id = ids.map(_id => new mongoose.Types.ObjectId(_id))
+            const roles = await Role.find({ "_id": { $in: id } })
+            const rolesId = _.map(roles, '_id')
             if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
                 throw new Error(`roles invalid value`)
             }
@@ -47,8 +47,8 @@ export const validateUpdate = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.'),
     body('username').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async (value, { req }) => {
-            let id = req.params.id
-            let user = await User.find({ _id: { $ne: id }, username: { $in: [value] } })
+            const id = req.params.id
+            const user = await User.find({ _id: { $ne: id }, username: { $in: [value] } })
             if (user.length > 0) {
                 throw new Error(`username is ${value} has been taken`)
             }
@@ -59,17 +59,17 @@ export const validateUpdate = validatetions([
     body('roles').optional()
         .isArray().withMessage('roles must be array.')
         .custom(async (value, { req }) => {
-            let ids = _.isArray(value) ? value : [];
-            let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            const ids = _.isArray(value) ? value : [];
+            const findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
             if (findDuplicates(ids).length != 0) {
                 throw new Error(`roles ${findDuplicates(value).toString()} duplicate.`)
             }
         })
         .custom(async (value, { req }) => {
-            let ids = _.isArray(value) ? value : [];
-            let id = ids.map(_id => new mongoose.Types.ObjectId(_id))
-            let roles = await Role.find({ "_id": { $in: id } })
-            let rolesId = _.map(roles, '_id')
+            const ids = _.isArray(value) ? value : [];
+            const id = ids.map(_id => new mongoose.Types.ObjectId(_id))
+            const roles = await Role.find({ "_id": { $in: id } })
+            const rolesId = _.map(roles, '_id')
             if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
                 throw new Error(`roles invalid value`)
             }
