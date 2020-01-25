@@ -18,7 +18,7 @@ export const validateUpdate = validatetions([
     body('name').optional().notEmpty().withMessage('name must be required.')
         .custom(async (value, { req }) => {
             const id = req.params.id
-            const roles = await Roles.find({ _id: { $ne: id }, name: { $in: [value] } })
+            const roles = await Permission.find({ _id: { $ne: id }, name: { $in: [value] } })
             if (roles.length > 0) {
                 throw new Error(`name is ${value} has been taken`)
             }
