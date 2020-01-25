@@ -66,7 +66,7 @@ export const create = async (req, res) => {
 export const destroy = async (req, res) => {
     const _id = req.params.id
     try {
-        const roles = await Role.findByIdAndDeconste(_id)
+        const roles = await Role.findByIdAndDelete(_id)
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }

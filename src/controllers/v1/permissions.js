@@ -66,7 +66,7 @@ export const create = async (req, res) => {
 export const destroy = async (req, res) => {
     const _id = req.params.id
     try {
-        const permissions = await Permission.findByIdAndDeconste(_id)
+        const permissions = await Permission.findByIdAndDelete(_id)
         if (!permissions) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }

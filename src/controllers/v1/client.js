@@ -70,7 +70,7 @@ export const create = async (req, res) => {
 export const destroy = async (req, res) => {
     const _id = req.params.id
     try {
-        const client = await Client.findByIdAndDeconste(_id)
+        const client = await Client.findByIdAndDelete(_id)
         if (!client) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
