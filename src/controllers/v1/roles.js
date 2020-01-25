@@ -5,48 +5,48 @@ import { responseCollection, responseWithError, responseWithCustomError } from '
 
 export const list = async (req, res) => {
     try {
-        let { page, limit } = req.query
-        let { name } = req.query
-        let { sortBy, sortType } = req.query
-        let filterLike = queryLike({ name })
-        let sort = querySort(sortBy, sortType)
-        let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort))
+        const { page, limit } = req.query
+        const { name } = req.query
+        const { sortBy, sortType } = req.query
+        const filterLike = queryLike({ name })
+        const sort = querySort(sortBy, sortType)
+        const roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort))
         res.status(200).json(roles)
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const show = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let roles = await Role.findById(_id)
+        const roles = await Role.findById(_id)
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(roles))
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const update = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let roles = await Role.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
+        const roles = await Role.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(roles))
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
@@ -54,7 +54,7 @@ export const update = async (req, res) => {
 }
 
 export const create = async (req, res) => {
-    let roles = new Role(req.body)
+    const roles = new Role(req.body)
     try {
         await roles.save()
         res.status(201).send(responseCollection(roles))
@@ -64,16 +64,16 @@ export const create = async (req, res) => {
 }
 
 export const destroy = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let roles = await Role.findByIdAndDelete(_id)
+        const roles = await Role.findByIdAndDelete(_id)
         if (!roles) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
@@ -81,23 +81,23 @@ export const destroy = async (req, res) => {
 
 export const listWithPermission = async (req, res) => {
     try {
-        let { page, limit } = req.query
-        let { name } = req.query
-        let { sortBy, sortType } = req.query
-        let filterLike = queryLike({ name })
-        let sort = querySort(sortBy, sortType)
-        let roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'permissions'))
+        const { page, limit } = req.query
+        const { name } = req.query
+        const { sortBy, sortType } = req.query
+        const filterLike = queryLike({ name })
+        const sort = querySort(sortBy, sortType)
+        const roles = await Role.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'permissions'))
         res.status(200).json(roles)
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const showWithPermissions = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
         return await Role.findOne({ _id })
             .populate({
@@ -111,7 +111,7 @@ export const showWithPermissions = async (req, res) => {
             })
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }

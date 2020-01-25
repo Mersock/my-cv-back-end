@@ -12,7 +12,7 @@ export const validateList = validatetions([
 export const validateCreate = validatetions([
     body('name').isLength({ min: 4 }).withMessage('name must be least 4 chars.')
         .custom(async name => {
-            let client = await Client.findOne({ name })
+            const client = await Client.findOne({ name })
             if (!_.isEmpty(client)) {
                 throw new Error(`name is ${name} has been taken`)
             }
@@ -23,8 +23,8 @@ export const validateUpdate = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.'),
     body('name').optional().isLength({ min: 4 }).withMessage('username must be least 4 chars.')
         .custom(async (value, { req }) => {
-            let id = req.params.id
-            let client = await Client.find({ _id: { $ne: id }, name: { $in: [value] } })
+            const id = req.params.id
+            const client = await Client.find({ _id: { $ne: id }, name: { $in: [value] } })
             if (client.length > 0) {
                 throw new Error(`name is ${value} has been taken`)
             }

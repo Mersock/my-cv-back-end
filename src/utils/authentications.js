@@ -8,14 +8,14 @@ import randtoken from 'rand-token'
 const privateKey = fs.readFileSync(path.join(__dirname, '../keys') + '/private.key', 'utf8');
 
 export const signOption = (user) => {
-    let permisisons = responsePermisisons(user.roles)
-    let payload = {
+    const permisisons = responsePermisisons(user.roles)
+    const payload = {
         id: user._id,
         username: user.username,
         permissions: permisisons
     }
-    let exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
-    let signOptions = {
+    const exp = Math.floor(Date.now() / 1000) + (60 * 60 * 4)
+    const signOptions = {
         expiresIn: exp,
         algorithm: "RS256"
     };
@@ -23,14 +23,14 @@ export const signOption = (user) => {
 }
 
 export const saveRefreshToken = user => {
-    let refreshToken = randtoken.uid(128)
-    let exp = (60 * 60 * 24)
+    const refreshToken = randtoken.uid(128)
+    const exp = (60 * 60 * 24)
     client.set(`refreshToken_${user._id}_${refreshToken}`, JSON.stringify(user), 'EX', exp)
     return refreshToken
 }
 
 export const getUserFromRefreshToken = (userId, refreshToken) => {
-    let user = client.getAsync(`refreshToken_${userId}_${refreshToken}`).then(function (res) {
+    const user = client.getAsync(`refreshToken_${userId}_${refreshToken}`).then(function (res) {
         return res
     })
     return user
@@ -41,12 +41,12 @@ export const destroyRefreshToken = (userId, refreshToken) => {
 }
 
 export const responsePermisisons = roles => {
-    let rolesList = _.map(roles, 'name')
+    const rolesList = _.map(roles, 'name')
     let permisisons = []
     _.forEach(roles, function (role) {
         permisisons = role.permissions.map(permission => permission)
     })
-    let permisisonsList = _.map(permisisons, 'name')
+    const permisisonsList = _.map(permisisons, 'name')
     if (!_.isEmpty(permisisonsList)) {
         return [...rolesList, ...permisisonsList]
     }
