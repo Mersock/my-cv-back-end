@@ -29,6 +29,6 @@ export const validateShow = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
 
-export const validateDeconste = validatetions([
+export const validateDelete = validatetions([
     param('id').isMongoId().withMessage('ID is invalid value.')
 ])
