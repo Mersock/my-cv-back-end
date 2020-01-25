@@ -6,7 +6,7 @@ import User from '../../models/users'
 
 export const login = async (req, res) => {
     try {
-        let { username, password } = req.body
+        const { username, password } = req.body
         return await User.findOne({ username }).populate({
             path: 'roles',
             populate: {
@@ -15,10 +15,10 @@ export const login = async (req, res) => {
             }
         }).exec(function (err, user) {
             if (user) {
-                let isMatch = bcrypt.compareSync(password, user.password)
+                const isMatch = bcrypt.compareSync(password, user.password)
                 if (isMatch) {
-                    let accessToken = signOption(user)
-                    let refreshToken = saveRefreshToken(user)
+                    const accessToken = signOption(user)
+                    const refreshToken = saveRefreshToken(user)
                     return res.status(200).send({
                         tokenType: 'Bearer',
                         accessToken,
@@ -35,10 +35,10 @@ export const login = async (req, res) => {
 
 export const refreshToken = async (req, res) => {
     try {
-        let { refreshToken, userId } = req.body
-        let userOject = await getUserFromRefreshToken(userId, refreshToken)
-        let user = JSON.parse(userOject)
-        let accessToken = signOption(user)
+        const { refreshToken, userId } = req.body
+        const userOject = await getUserFromRefreshToken(userId, refreshToken)
+        const user = JSON.parse(userOject)
+        const accessToken = signOption(user)
         res.status(200).send({
             accessToken
         })
@@ -49,9 +49,9 @@ export const refreshToken = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        let { userId, refreshToken } = req.body
-        let userOject = await getUserFromRefreshToken(userId, refreshToken)
-        let user = JSON.parse(userOject)
+        const { userId, refreshToken } = req.body
+        const userOject = await getUserFromRefreshToken(userId, refreshToken)
+        const user = JSON.parse(userOject)
         if (user.id) {
             destroyRefreshToken(user.id, refreshToken)
             return res.status(204).send()
