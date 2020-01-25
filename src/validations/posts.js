@@ -19,7 +19,7 @@ export const validateCreate = validatetions([
         .isLength({ min: 1, max: 10000 }).withMessage('must be maximum 10000 chars.'),
     body('slug').notEmpty().withMessage('must be not empty.')
         .custom(async slug => {
-            let posts = await Posts.findOne({ slug })
+            const posts = await Posts.findOne({ slug })
             if (posts) {
                 throw new Error(`slug name ${slug} has been taken.`)
             }
@@ -40,8 +40,8 @@ export const validateUpdate = validatetions([
     body('slug').optional()
         .notEmpty().withMessage('must be not empty.')
         .custom(async (value, { req }) => {
-            let id = req.params.id
-            let posts = await Posts.find({ _id: { $ne: id }, slug: { $in: [value] } })
+            const id = req.params.id
+            const posts = await Posts.find({ _id: { $ne: id }, slug: { $in: [value] } })
             if (posts.length > 0) {
                 throw new Error(`slug name ${slug} has been taken.`)
             }

@@ -7,62 +7,62 @@ import { responseWithError, responseWithCustomError, responseCollection } from '
 
 export const list = async (req, res) => {
     try {
-        let { page, limit } = req.query
-        let { body, title, slug, author } = req.query
-        let { sortBy, sortType } = req.query
-        let filter = queryEquals({ author })
-        let filterLike = queryLike({ body, title, slug })
-        let sort = querySort(sortBy, sortType)
-        let post = await Post.paginate(_.merge(filterLike, filter), setOptions(page, limit, sort))
+        const { page, limit } = req.query
+        const { body, title, slug, author } = req.query
+        const { sortBy, sortType } = req.query
+        const filter = queryEquals({ author })
+        const filterLike = queryLike({ body, title, slug })
+        const sort = querySort(sortBy, sortType)
+        const post = await Post.paginate(_.merge(filterLike, filter), setOptions(page, limit, sort))
         res.status(200).json(post)
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const show = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let post = await Post.findById(_id)
+        const post = await Post.findById(_id)
         if (!post) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(post))
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const create = async (req, res) => {
-    let post = new Post(req.body)
+    const post = new Post(req.body)
     try {
         await post.save()
         res.status(201).send(responseCollection(post))
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
 }
 
 export const update = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let post = await Post.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
+        const post = await Post.findOneAndUpdate({ _id }, { $set: req.body }, { new: true, useFindAndModify: false })
         if (!post) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(200).send(responseCollection(post))
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
@@ -70,16 +70,16 @@ export const update = async (req, res) => {
 }
 
 export const destroy = async (req, res) => {
-    let _id = req.params.id
+    const _id = req.params.id
     try {
-        let post = await Post.findByIdAndDelete(_id)
+        const post = await Post.findByIdAndDelete(_id)
         if (!post) {
             return res.status(404).send(responseWithCustomError('Not Found.', 404))
         }
         res.status(204).send()
     } catch (error) {
         console.log(error)
-        let errors = []
+        const errors = []
         errors.push(error)
         res.status(400).send(responseWithError(errors, 400))
     }
