@@ -48,13 +48,13 @@ userSchema.options.toJSON = {
 }
 
 userSchema.pre('save', async function (next) {
-    let user = this
+    const user = this
     user.password = await bcrypt.hashSync(user.password, process.env.SECRET_PASSWORD)
     next()
 })
 
 userSchema.pre('findOneAndUpdate', async function (next) {
-    let user = this.getUpdate()
+    const user = this.getUpdate()
     if (user.$set.password) {
         user.$set.password = await bcrypt.hash(user.$set.password, 10)
     }
