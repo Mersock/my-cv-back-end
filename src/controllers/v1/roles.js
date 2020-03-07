@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import Role from '../../models/roles';
 import { setOptions, queryLike, querySort } from '../../utils/paginate'
-import { responseWithCustomError, responseWithCustomError } from '../../utils/response'
+import { responseWithCustomError, responseCollection } from '../../utils/response'
 
 export const list = async (req, res) => {
     try {
