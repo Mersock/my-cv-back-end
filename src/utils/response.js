@@ -24,10 +24,12 @@ export const responseCollection = (collection) => {
     }
 }
 
-export const responseValidateError = (errors) => {
-    let extractedErrors = []
-    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+export const responseValidateError = (msg, code, errors) => {
     return {
-        errors: extractedErrors
+        'errors': {
+            statusCode: code,
+            message: msg,
+            'errors': errors
+        }
     }
 }
