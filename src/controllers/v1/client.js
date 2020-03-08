@@ -2,7 +2,7 @@ import _ from 'lodash'
 import randtoken from 'rand-token'
 import Client from '../../models/client';
 import { setOptions, queryLike, querySort, queryEquals } from '../../utils/paginate'
-import { responseWithError, responseWithCustomError, responseCollection } from '../../utils/response'
+import { responseWithCustomError, responseCollection } from '../../utils/response'
 
 
 
@@ -17,10 +17,7 @@ export const list = async (req, res) => {
         const client = await Client.paginate(_.merge(filterLike, filter), setOptions(page, limit, sort))
         res.status(200).json(client)
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -33,10 +30,7 @@ export const show = async (req, res) => {
         }
         res.status(200).send(responseCollection(client))
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -49,10 +43,7 @@ export const update = async (req, res) => {
         }
         res.status(200).send(responseCollection(client))
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -63,7 +54,7 @@ export const create = async (req, res) => {
         await client.save()
         res.status(201).send(responseCollection(client))
     } catch (error) {
-        res.send(error)
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -76,10 +67,7 @@ export const destroy = async (req, res) => {
         }
         res.status(204).send()
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 

@@ -1,18 +1,20 @@
 import _ from 'lodash'
 
-export const responseWithError = (error, code) => {
-    let errors = []
-    errors.push(error)
+export const responseWithError = (msg, code) => {
     return {
-        statusCode: code,
-        errors
+        'errors': {
+            statusCode: code,
+            message: msg
+        }
     }
 }
 
 export const responseWithCustomError = (msg, code) => {
     return {
-        statusCode: code,
-        message: msg
+        'errors': {
+            statusCode: code,
+            message: msg
+        }
     }
 }
 
@@ -22,10 +24,12 @@ export const responseCollection = (collection) => {
     }
 }
 
-export const responseValidateError = (errors) => {
-    let extractedErrors = []
-    errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
+export const responseValidateError = (msg, code, errors) => {
     return {
-        errors: extractedErrors
+        'errors': {
+            statusCode: code,
+            message: msg,
+            'errors': errors
+        }
     }
 }

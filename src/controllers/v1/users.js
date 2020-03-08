@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import User from '../../models/users'
 import { setOptions, queryLike, querySort } from '../../utils/paginate'
-import { responseWithError, responseWithCustomError, responseCollection } from '../../utils/response'
+import { responseWithCustomError, responseCollection } from '../../utils/response'
 
 export const list = async (req, res) => {
     try {
@@ -13,10 +13,7 @@ export const list = async (req, res) => {
         const user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort))
         res.status(200).json(user)
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -29,10 +26,7 @@ export const show = async (req, res) => {
         }
         res.status(200).send(responseCollection(user))
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -42,10 +36,7 @@ export const create = async (req, res) => {
         await user.save()
         res.status(201).send(responseCollection(user))
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -58,10 +49,7 @@ export const update = async (req, res) => {
         }
         res.status(200).send(responseCollection(user))
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 
 }
@@ -78,7 +66,7 @@ export const destroy = async (req, res) => {
         console.log(error)
         const errors = []
         errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError(errors, 400))
     }
 }
 
@@ -92,10 +80,7 @@ export const listWithRoles = async (req, res) => {
         const user = await User.paginate(_.merge(filterLike), setOptions(page, limit, sort, 'roles'))
         res.status(200).json(user)
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
 
@@ -113,9 +98,6 @@ export const showWithRoles = async (req, res) => {
                 res.status(200).json(responseCollection(roles))
             })
     } catch (error) {
-        console.log(error)
-        const errors = []
-        errors.push(error)
-        res.status(400).send(responseWithError(errors, 400))
+        res.status(400).send(responseWithCustomError('Bad Request.', 400))
     }
 }
