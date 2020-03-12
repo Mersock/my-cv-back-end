@@ -27,6 +27,9 @@ const userSchema = new Schema({
         minlength: 6,
         trim: true
     },
+    imagesUrl:{
+        type:String,
+    },
     roles: [
         {
             type: mongoose.Schema.Types.ObjectId,

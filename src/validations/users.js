@@ -40,7 +40,9 @@ export const validateCreate = validatetions([
             if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
                 throw new Error(`roles invalid value`)
             }
-        })
+        }),
+    body('imagesUrl').optional().isURL().withMessage('imagesUrl must be url.')
+    
 ]);
 
 export const validateUpdate = validatetions([
@@ -73,7 +75,9 @@ export const validateUpdate = validatetions([
             if (!_.isEqual(_.sortBy(id), _.sortBy(rolesId))) {
                 throw new Error(`roles invalid value`)
             }
-        })
+        }),
+    body('imagesUrl').optional().isURL().withMessage('imagesUrl must be url.')
+    
 ])
 
 export const validateShow = validatetions([
