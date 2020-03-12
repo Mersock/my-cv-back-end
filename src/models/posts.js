@@ -25,6 +25,9 @@ const postsSchema = new Schema({
         type: String,
         required: true,
         maxlength: 10000
+    },
+    imagesUrl:{
+        type:String,
     }
 }, {
     timestamps: true

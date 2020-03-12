@@ -24,7 +24,8 @@ export const validateCreate = validatetions([
                 throw new Error(`slug name ${slug} has been taken.`)
             }
         })
-        .matches(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).withMessage('slug invalid format.')
+        .matches(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).withMessage('slug invalid format.'),
+    body('imagesUrl').optional().isURL().withMessage('imagesUrl must be url.')
 ])
 
 export const validateUpdate = validatetions([
@@ -46,7 +47,9 @@ export const validateUpdate = validatetions([
                 throw new Error(`slug name ${slug} has been taken.`)
             }
         })
-        .matches(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).withMessage('slug invalid format.')
+        .matches(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/).withMessage('slug invalid format.'),
+    body('imagesUrl').optional().isURL().withMessage('imagesUrl must be url.')
+    
 ])
 
 export const validateShow = validatetions([
