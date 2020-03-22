@@ -6,6 +6,7 @@ import './db/mongodb'
 // import './db/redis'
 import router from './routes/index';
 import { handleRequest, handleRouter, handleRolePermissions } from './middlewares/handle'
+import './initailSetup'
 
 const app = express()
 
