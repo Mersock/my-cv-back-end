@@ -18,11 +18,11 @@ export const login = async (req, res) => {
                 const isMatch = bcrypt.compareSync(password, user.password)
                 if (isMatch) {
                     const accessToken = signOption(user)
-                    const refreshToken = saveRefreshToken(user)
+                    // const refreshToken = saveRefreshToken(user)
                     return res.status(200).send({
                         tokenType: 'Bearer',
                         accessToken,
-                        refreshToken
+                        // refreshToken
                     })
                 }
             }
