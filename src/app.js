@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import './db/mongodb'
-// import './db/redis'
+import './db/redis'
 import router from './routes/index';
 import { handleRequest, handleRouter, handleRolePermissions } from './middlewares/handle'
 import './initailSetup'
